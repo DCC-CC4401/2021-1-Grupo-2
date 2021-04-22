@@ -22,6 +22,7 @@
                 <img src="logo.png">
               </figure>
               <form method="POST" action="">
+                {% csrf_token %} <!-- csrf token for basic security -->
                 <div class="field">
                   <label class="label">Name</label>
                   <p class="control has-icons-left has-icons-right">

@@ -5,7 +5,7 @@ from pichapp.models import User
 
 def register_user(request):
     if request.method == 'GET': #Si estamos cargando la página
-        return render(request, "pichapp/templates/pichapp/register.html") #Mostrar el template
+        return render(request, "pichapp/register.html") #Mostrar el template
 
     elif request.method == 'POST': #Si estamos recibiendo el form de registro
      #Tomar los elementos del formulario que vienen en request.POST
@@ -21,4 +21,4 @@ def register_user(request):
      #Redireccionar la página /tareas
         return HttpResponseRedirect('/tareas')
 
-    return render(request,"pichapp/templates/pichapp/register.html")
+    return render(request,"pichapp/register.html")

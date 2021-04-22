@@ -20,4 +20,4 @@ def register_user(request):
      #Redireccionar la página /tareas
         return HttpResponseRedirect('/tareas')
 
-   return render(request,"pichapp/templates/pichapp/register.html")
+    return render(request,"pichapp/templates/pichapp/register.html")

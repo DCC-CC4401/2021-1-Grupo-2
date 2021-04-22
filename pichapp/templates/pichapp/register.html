@@ -2,12 +2,13 @@
 <html>
 
 <head>
-  <title>Login Form in Bulma</title>
+  {% load static %}
+  <title> Pichangapp</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css">
-  <link rel="stylesheet" type="text/css" href="register.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/register.css' %}">
 </head>
 
 <body>
@@ -19,12 +20,13 @@
           <div class="notification is-light">
             <div class="column">
               <figure class="image container is-64x64">
-                <img src="logo.png">
+                <img src="{% static 'pichapp/logo.png' %}">
               </figure>
+              <h1 class="subtitle is-3"> Register </h1>
               <form method="POST" action="">
                 {% csrf_token %} <!-- csrf token for basic security -->
                 <div class="field">
-                  <label class="label">Name</label>
+                  <label class="label">Name:</label>
                   <p class="control has-icons-left has-icons-right">
                     <input class="input" type="text" placeholder="Usario" name="username">
                     <span class="icon is-small is-left">
@@ -33,7 +35,7 @@
                   </p>
                 </div>
                 <div class="field">
-                  <label class="label"> Email </label>
+                  <label class="label"> Email: </label>
                   <p class="control has-icons-left has-icons-right">
                     <input class="input" type="email" placeholder="Email" name="email">
                     <span class="icon is-small is-left">

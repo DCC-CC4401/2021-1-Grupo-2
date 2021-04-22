@@ -13,14 +13,19 @@ def register_user(request):
      #Tomar los elementos del formulario que vienen en request.POST
         username = request.POST['username']
         password = request.POST['password']
-        #apodo = request.POST['apodo']
-        #pronombre = request.POST['pronombre']
+        email = request.POST['email']
+        if User.objects.filter(username=username).exists():
+            return HttpResponseRedirect('/register')
+            #TODO: mostrar error
+        if User.objects.filter(email=email).exists():
+            return HttpResponseRedirect('/register')
+            #TODO: mostrar error
         email = request.POST['email']
 
         #Crear el nuevo usuario
         user = User.objects.create_user(username=username, password=password, email=email)
 
-     #Redireccionar la página /login
+        #Redireccionar la página /login
         return HttpResponseRedirect('/login')
 
     return render(request,"pichapp/register.html")
@@ -36,7 +41,8 @@ def login_user(request):
             login(request,user)
             return HttpResponseRedirect('/home')
         else:
-            return HttpResponseRedirect('/register')
+            return HttpResponseRedirect('/login')
+            #TODO: mostrar error
 
 def logout_user(request):
     logout(request)

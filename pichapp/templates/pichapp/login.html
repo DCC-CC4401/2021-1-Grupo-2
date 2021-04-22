@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  {% load static %}
+  <title> Pichangapp</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/register.css' %}">
+</head>
+
+<body>
+  <div class="hero is-primary">
+    <div class="hero-body">
+      <h1 class="title has-text-centered is-size-2"> Pichangapp </h1>
+      <div class="columns is-centered">
+        <div class="column is-half">
+          <div class="notification is-light">
+            <div class="column">
+              <figure class="image container is-64x64">
+                <img src="{% static 'pichapp/logo.png' %}">
+              </figure>
+              <h1 class="subtitle is-3"> Login </h1>
+              <form method="POST" action="">
+                {% csrf_token %} <!-- csrf token for basic security -->
+                <div class="field">
+                  <label class="label"> Usuario: </label>
+                  <p class="control has-icons-left has-icons-right">
+                    <input class="input" type="text" name="username">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-user"></i>
+                    </span>
+                  </p>
+                </div>
+                <div class="field">
+                  <label class="label">Contraseña:</label>
+                  <p class="control has-icons-left">
+                    <input class="input" type="password" name="password">
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-lock"></i>
+                    </span>
+                  </p>
+                </div>
+                <button class="button is-info is-rounded is-outlined is-medium" type="submit"> Ingresar </a>
+              </form>
+            </div>
+            
+            <div class="column is-vcentered">
+                <p> ¿No tienes cuenta?</p>
+                <a class="button is-primary is-rounded is-outlined is-small" href="register"> Regístrate </a>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

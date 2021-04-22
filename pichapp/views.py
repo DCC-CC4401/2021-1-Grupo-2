@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from pichapp.models import User
 
 # Create your views here.
 

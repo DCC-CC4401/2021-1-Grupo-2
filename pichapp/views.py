@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from pichapp.models import User
 from django.contrib.auth import authenticate, login,logout
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
@@ -31,9 +32,13 @@ def login_user(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username,password=password)
-        if usuario is not None:
+        if user is not None:
             login(request,user)
             return HttpResponseRedirect('/home')
         else:
             return HttpResponseRedirect('/register')
+
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect('/home')
 

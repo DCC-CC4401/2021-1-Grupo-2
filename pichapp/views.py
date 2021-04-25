@@ -50,3 +50,9 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect('/home')
+
+
+def room_detail(request):
+    if request.method == 'GET':
+        data = {}
+        return render(request, "pichapp/room_detail.html", data)

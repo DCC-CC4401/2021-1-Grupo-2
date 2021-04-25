@@ -27,6 +27,8 @@ class ActivityCategory(models.Model):
 
 
 class Room(models.Model):
+    # TODO: make this model auto add the host to `participants` field
+    #       when a new instance is created
     # TODO: make this model auto update `is_active` field
     #       whenever the participants relationship is changed
     #       see: https://docs.djangoproject.com/en/3.2/ref/signals/#m2m-changed
@@ -36,7 +38,8 @@ class Room(models.Model):
     )
     participants = models.ManyToManyField(
         User,
-        related_name='rooms'
+        related_name='rooms',
+        blank=True
     )
     host = models.ForeignKey(
         User,

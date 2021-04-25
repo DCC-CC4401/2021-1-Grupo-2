@@ -41,6 +41,9 @@ class Room(models.Model):
         related_name='rooms',
         blank=True
     )
+    name = models.CharField(
+        max_length=255
+    )
     host = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

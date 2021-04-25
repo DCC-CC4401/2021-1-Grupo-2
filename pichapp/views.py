@@ -52,7 +52,7 @@ def logout_user(request):
     return HttpResponseRedirect('/home')
 
 
-def room_detail(request):
+def room_detail(request, pk):
     if request.method == 'GET':
         data = {}
         return render(request, "pichapp/room_detail.html", data)

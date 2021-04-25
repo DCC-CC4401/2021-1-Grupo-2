@@ -1,7 +1,7 @@
-from django.shortcuts import render
-from pichapp.models import User
+from django.shortcuts import render, get_object_or_404
+from pichapp.models import User, Room
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 
 
 # Create your views here.
@@ -52,7 +52,10 @@ def logout_user(request):
     return HttpResponseRedirect('/home')
 
 
-def room_detail(request, pk):
+def room_detail(request, pk: int):
     if request.method == 'GET':
-        data = {}
-        return render(request, "pichapp/room_detail.html", data)
+        room: Room = get_object_or_404(Room, pk=pk)
+        context = {
+            'room': room
+        }
+        return render(request, "pichapp/room_detail.html", context)

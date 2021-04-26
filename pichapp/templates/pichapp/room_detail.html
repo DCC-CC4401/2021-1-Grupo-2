@@ -1,9 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+  {% load static %}
+  <title> Pichangapp</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/room_detail.css' %}">
 </head>
+
 <body>
+
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <img src="{% static 'pichapp/logo.png' %}" width="auto" height="200px">
+    </div>
+  </nav>
+
+  <div class="container2">
+    <div class="container-button">
+      <button class="button back-to-search-button" href="#">Volver a la búsqueda</button>
+    </div>
+    <div class="box2">
+      <div class="columns">
+        <div class="column container-info1">
+          <p>
+            <span class="has-text-weight-bold"> Nombre de sala: </span>{{ room.name }}
+          </p>
+          <p>
+            <span class="has-text-weight-bold"> Actividad: </span>{{ room.category.name }}
+          </p>
+          <p>
+            <span class="has-text-weight-bold"> Número de participantes: </span>{{ room.current_size }}
+          </p>
+          <p>
+            <span class="has-text-weight-bold"> Lugar: </span>{{ room.place }}
+          </p>
+        </div>
+        <div class="column container-info2">
+          <div class="has-text-weight-bold"> Participantes: </div>
+            {% for p in room.participants.all%}
+              <p>{{p.username}}</p>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="container-button is-right">
+      <button class="button back-to-search-button" href="#">Salir de la sala</button>
+    </div>
+  </div>
 
 </body>
 </html>

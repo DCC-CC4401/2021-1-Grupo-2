@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+  <form method="POST" action="">
+    {% csrf_token %} <!-- csrf token for basic security -->
+    <div class="field">
+      <label class="label">Nombre de la cancha:</label>
+      <p class="control has-icons-left has-icons-right">
+        <input class="input" type="text" placeholder="Ej: Cancha los molinos" name="nombre_cancha">
+        <span class="icon is-small is-left">
+          <i class="fas fa-user"></i>
+        </span>
+      </p>
+    </div>
+    <div class="field">
+      <label class="label">Comuna: </label>
+      <p class="control has-icons-left has-icons-right">
+        <input class="input" type="text" placeholder="Ej: Santiago" name="nombre_comuna">
+        <span class="icon is-small is-left">
+          <i class="fas fa-user"></i>
+        </span>
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="label">Región: </label>
+      <p class="control has-icons-left has-icons-right">
+        <input class="input" type="text" placeholder="Ej: Región Metropolitana" name="nombre_region">
+        <span class="icon is-small is-left">
+          <i class="fas fa-user"></i>
+        </span>
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="label">Deporte: </label>
+      <p class="control has-icons-left has-icons-right">
+        <input class="input" type="text" placeholder="Ej: Fútbol" name="nombre_actividad">
+        <span class="icon is-small is-left">
+          <i class="fas fa-user"></i>
+        </span>
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="label">Fecha del encuentro: </label>
+      <p class="control has-icons-left has-icons-right">
+        <input type="date" id="start" name="fecha" value="{{ fecha }}" min="{{ fecha }}">
+        <span class="icon is-small is-left">
+          <i class="fas fa-user"></i>
+        </span>
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="label">Hora del encuentro: </label>
+      <p class="control has-icons-left has-icons-right">
+          <input type="time" id="appt" name="hora_encuentro" required>
+        <span class="icon is-small is-left">
+          <i class="fas fa-user"></i>
+        </span>
+      </p>
+    </div>
+
+    <div class="field">
+      <label class="label"> Tamaño de la sala: </label>
+      <p class="control has-icons-left has-icons-right">
+        <input class="input" type="number" name="tamano_sala" min="1" max ="30" value="1">
+        <span class="icon is-small is-left">
+          <i class="fas fa-user"></i>
+        </span>
+      </p>
+    </div>
+    <button class="button is-info is-rounded is-outlined is-medium" type="submit"> Crear Sala </button>
+  </form>
+
+</body>
+</html>

@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from pichapp.views import crear_sala
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('crear_sala/', crear_sala),
 ]

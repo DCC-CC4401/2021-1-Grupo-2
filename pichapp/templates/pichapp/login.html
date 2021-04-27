@@ -6,9 +6,11 @@
   <title> Pichangapp</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css">
+  <script src="https://kit.fontawesome.com/929bc70b66.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/mystyles.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'pichapp/register.css' %}">
+  <script src="{% static 'pichapp/notification.js' %}"></script>
+  
 </head>
 
 <body>
@@ -22,13 +24,13 @@
               <figure class="image container is-64x64">
                 <img src="{% static 'pichapp/logo.png' %}">
               </figure>
-              <h1 class="subtitle is-3"> Login </h1>
-              <form method="POST" action="">
+              <h1 class="subtitle is-3 has-text-dark"> Login </h1>
+              <form method="POST" action="" id="myForm">
                 {% csrf_token %} <!-- csrf token for basic security -->
                 <div class="field">
                   <label class="label"> Usuario: </label>
                   <p class="control has-icons-left has-icons-right">
-                    <input class="input" type="text" name="username">
+                    <input class="input" type="text" name="username" required>
                     <span class="icon is-small is-left">
                       <i class="fas fa-user"></i>
                     </span>
@@ -37,20 +39,42 @@
                 <div class="field">
                   <label class="label">Contraseña:</label>
                   <p class="control has-icons-left">
-                    <input class="input" type="password" name="password">
+                    <input class="input" type="password" name="password" required>
                     <span class="icon is-small is-left">
                       <i class="fas fa-lock"></i>
                     </span>
                   </p>
                 </div>
-                <button class="button is-info is-rounded is-outlined is-medium" type="submit"> Ingresar </a>
               </form>
             </div>
-            
-            <div class="column is-vcentered">
+            <div class="columns">
+              <div class="column is-vcentered is-one-third">
+                <button class="button is-primary is-rounded is-outlined is-medium is-fullwidth" type="submit" form="myForm"> Ingresar </button>
                 <p> ¿No tienes cuenta?</p>
-                <a class="button is-primary is-rounded is-outlined is-small" href="register"> Regístrate </a>
+                <a class="button is-info is-rounded is-outlined is-small is-fullwidth" href="{% url 'register_user' %}"> Regístrate </a>
               </div>
+              <div class="column">
+                {% if error %}
+                <div class="notification is-warning">
+                  <button type="button" class="delete" onclick="hide_notification(this)"><span class="icon">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                  </span></button>
+                  {% for o_error in error %}
+                  <p>{{ o_error }}</p>
+                  {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if success %}
+                <div class="notification is-success">
+                  <button type="button" class="delete" onclick="hide_notification(this)"><span class="icon">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                  </span></button>
+                {{ success }}
+                </div>
+                {% endif %}
+              </div>
+            </div>
           </div>
         </div>
       </div>

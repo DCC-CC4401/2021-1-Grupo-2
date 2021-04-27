@@ -67,7 +67,9 @@
                     <button type="button" class="delete" onclick="hide_notification(this)"><span class="icon">
                       <i class="fas fa-times" aria-hidden="true"></i>
                     </span></button>
-                  {{ error }}
+                    {% for o_error in error %}
+                      <p>{{ o_error }}</p>
+                    {% endfor %}
                   </div>
                   {% endif %}
   

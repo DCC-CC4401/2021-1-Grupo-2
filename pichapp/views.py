@@ -33,12 +33,19 @@ def register_user(request):
         messages.add_message(request, messages.INFO, "Usuario creado correctamente")
 
         # Redireccionar la página /login
-        return HttpResponseRedirect("pichapp/login.html", context)
+        return HttpResponseRedirect("/login", context)
 
     return render(request, "pichapp/register.html")
 
 
 def login_user(request):
+
+    storage = messages.get_messages(request)
+    success = None
+    for message in storage:
+        success = message
+        return render(request, 'pichapp/login.html', {'success': success})
+
     if request.method == 'GET':
         return render(request, "pichapp/login.html")
     if request.method == 'POST':
@@ -49,7 +56,7 @@ def login_user(request):
             login(request, user)
             return HttpResponseRedirect('/home')
         else:
-            context = {"error" : "Usuario o contraseña incorrecta"}
+            context = {"error" : ["Usuario o contraseña incorrecta"]}
             return render(request, "pichapp/login.html", context)
 
 

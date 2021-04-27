@@ -2,7 +2,8 @@ from django.shortcuts import render
 from pichapp.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 
 
 # Create your views here.
@@ -29,10 +30,10 @@ def register_user(request):
 
         # Crear el nuevo usuario
         user = User.objects.create_user(username=username, password=password, email=email)
-        context["success"] = "Usuario creado correctamente"
+        messages.add_message(request, messages.INFO, "Usuario creado correctamente")
 
         # Redireccionar la página /login
-        return render(request, "pichapp/login.html", context)
+        return HttpResponseRedirect("pichapp/login.html", context)
 
     return render(request, "pichapp/register.html")
 
@@ -48,8 +49,8 @@ def login_user(request):
             login(request, user)
             return HttpResponseRedirect('/home')
         else:
-            return HttpResponseRedirect('/login')
-            # TODO: mostrar error
+            context = {"error" : "Usuario o contraseña incorrecta"}
+            return render(request, "pichapp/login.html", context)
 
 
 def logout_user(request):

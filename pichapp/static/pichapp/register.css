@@ -5,8 +5,13 @@ body {
 
   .hero {
     height: 100vh;
+    
     position: relative;
+    background: rgb(195,161,34);
+    background: linear-gradient(0deg, rgba(195,161,34,0.44309061515231096) 0%, rgba(255,124,117,1) 100%);
+    /**
     background-image: url("fondo.jpg");
+    **/
   }
 
   .notification {

@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
 
 
 class User(AbstractUser):
@@ -27,11 +29,6 @@ class ActivityCategory(models.Model):
 
 
 class Room(models.Model):
-    # TODO: make this model auto add the host to `participants` field
-    #       when a new instance is created
-    # TODO: make this model auto update `is_active` field
-    #       whenever the participants relationship is changed
-    #       see: https://docs.djangoproject.com/en/3.2/ref/signals/#m2m-changed
     creation_date = models.DateTimeField(
         verbose_name='Fecha de creación',
         auto_now_add=True
@@ -75,3 +72,17 @@ class Room(models.Model):
     activity_datetime = models.DateTimeField(
         verbose_name='Fecha del encuentro',
     )
+
+    @property
+    def is_full(self):
+        return self.current_size >= self.max_size
+
+
+@receiver(m2m_changed, sender=Room.participants.through)
+def on_participants_changed(instance: Room, action: str, **kwargs):
+    print("OLA")
+    if action in ['post_add', 'post_remove', 'post_clear']:
+        size = instance.participants.count()
+        instance.current_size = size
+        instance.is_open = size < instance.max_size
+        instance.save()

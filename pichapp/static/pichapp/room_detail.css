@@ -1,0 +1,45 @@
+.container2 {
+    margin-top: 5px;
+    padding: 70px;
+}
+
+.navbar2 {
+    background-color: white;
+    min-height: 3.25rem;
+    position: relative;
+    z-index: 30;
+}
+
+.back-to-search-button {
+    background-color: #e9857f;
+    color: white;
+}
+
+.container-info1 {
+    background-color: #f5a9a2;
+    padding: 64px 64px 64px 80px;
+}
+
+.container-info2 {
+    background-color: rgba(245, 169, 162, 0.2);
+    padding: 64px 80px 64px 64px;
+}
+
+.container-button {
+    padding-top: 24px;
+    padding-bottom: 24px;
+    display: flex;
+}
+
+.container-button.is-right{
+    justify-content: flex-end;
+}
+
+.box2 {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 .5em 1em -.125em rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.02);
+    color: #4a4a4a;
+    padding: 0px;
+    overflow: hidden;
+}

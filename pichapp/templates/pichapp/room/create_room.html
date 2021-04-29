@@ -9,6 +9,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'pichapp/mystyles.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'pichapp/room.css' %}">
   <script src="{% static 'pichapp/notification.js' %}"></script>
+  <script src="{% static 'pichapp/regiones_comunas.js' %}"> </script>
 </head>
 
 </body>
@@ -25,34 +26,39 @@
             <div class="field">
               <label class="label">Nombre de la cancha:</label>
               <p class="control has-icons-right">
-                <input class="input" type="text" placeholder="Ej: Cancha los molinos" name="nombre_cancha">
-              </p>
-            </div>
-            <div class="field">
-              <label class="label">Comuna: </label>
-              <p class="control has-icons-right">
-                <input class="input" type="text" placeholder="Ej: Santiago" name="nombre_comuna">
+                <input class="input" type="text" placeholder="Ej: Cancha los molinos" name="nombre_cancha" required>
               </p>
             </div>
 
             <div class="field">
               <label class="label">Región: </label>
-              <p class="control has-icons-right">
-                <input class="input" type="text" placeholder="Ej: Región Metropolitana" name="nombre_region">
-              </p>
+              <div class="select control has-icons-right">
+                  <select id = "region" onchange="region_change(this)" class="input"  name="nombre_region" required>
+                      <option value=""> Seleccione una región</option>
+                  </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Comuna: </label>
+              <div class="select control has-icons-right">
+                  <select id = "comuna" class="input" name="nombre_comuna" required>
+                      <option value=""> Seleccione una comuna</option>
+                  </select>
+              </div>
             </div>
 
             <div class="field">
               <label class="label">Deporte: </label>
               <p class="control has-icons-right">
-                <input class="input" type="text" placeholder="Ej: Fútbol" name="nombre_actividad">
+                <input class="input" type="text" placeholder="Ej: Fútbol" name="nombre_actividad" required>
               </p>
             </div>
 
             <div class="field">
               <label class="label">Fecha del encuentro: </label>
               <p class="control has-icons-right">
-                <input type="date" id="start" name="fecha" value="{{ fecha }}" min="{{ fecha }}">
+                <input type="date" id="start" name="fecha" value="{{ fecha }}" min="{{ fecha }}" required>
               </p>
             </div>
 
@@ -66,7 +72,7 @@
             <div class="field">
               <label class="label"> Tamaño de la sala: </label>
               <p class="control has-icons-right">
-                <input class="input" type="number" name="tamano_sala" min="1" max="30" value="1">
+                <input class="input" type="number" name="tamano_sala" min="1" max="30" value="1" required>
               </p>
             </div>
             <button class="button is-info is-rounded is-outlined is-medium" type="submit"> Crear Sala </button>
@@ -76,6 +82,12 @@
     </div>
   </div>
 </div>
+
+  <!-- Make regiones -->
+  <script>
+  make_regiones();
+  </script>
+
 </body>
 
 </html>

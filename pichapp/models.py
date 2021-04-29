@@ -60,7 +60,7 @@ class Room(models.Model):
     )
     current_size = models.IntegerField(
         verbose_name='Participantes actuales',
-        default=0
+        default=1
     )
     max_size = models.IntegerField(
         verbose_name='Participantes máximos'

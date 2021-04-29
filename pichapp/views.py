@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from pichapp.models import User
-from datetime import date
+from pichapp.models import User, Room, ActivityCategory
+from datetime import date, datetime
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -20,13 +20,21 @@ def create_room(request):
         nombre_comuna = request.POST["nombre_comuna"]
         nombre_region = request.POST["nombre_region"]
         nombre_actividad = request.POST["nombre_actividad"]
+
+        activity_object = ActivityCategory.objects.get(verbose_name=nombre_actividad)
+
+
         fecha = request.POST["fecha"]
         hora_encuentro = request.POST["hora_encuentro"]
-        tamano_sala = request.POST["tamano_sala"]
-        anfitrion = request.user.username #Obtenemos el nombre de usuario del anfitrión
+        tamano_sala = int(request.POST["tamano_sala"])
+        anfitrion = request.user #Obtenemos el nombre de usuario del anfitrión
 
+        room = Room.objects.create(host=anfitrion,category=activity_object,
+                                   max_size=tamano_sala, place=nombre_region + ", " + nombre_comuna + ", " + nombre_cancha,
+                                   activity_datetime=datetime.fromisoformat(fecha + "T" + hora_encuentro))
+        room.save() #Guardamos la sala en la base
 
-        return HttpResponseRedirect('/_sala')
+        return HttpResponseRedirect('/create_room/')
 
 
 def register_user(request):

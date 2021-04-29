@@ -1,9 +1,9 @@
-from django.shortcuts import render
 from pichapp.models import User, Room, ActivityCategory
 from datetime import date, datetime
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.contrib import messages
 
 
@@ -92,3 +92,38 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect('/home')
+
+
+def room_detail(request, pk: int):
+    if request.method == 'GET':
+        room: Room = get_object_or_404(Room, pk=pk)
+        user: User = request.user
+        context = {
+            'room': room,
+            'is_authenticated': False,
+            'in_room': False,
+        }
+        if user.is_authenticated:
+            context['is_authenticated'] = True
+            context['user'] = user
+            if room.participants.filter(username=user.username).count() > 0:
+                context['in_room'] = True
+        return render(request, "pichapp/room_detail.html", context)
+
+
+@login_required
+def join_room(request, pk: int):
+    if request.method == 'POST':
+        room: Room = get_object_or_404(Room, pk=pk)
+        room.participants.add(request.user)
+        room.save()
+        return HttpResponseRedirect(f'/rooms/{pk}')
+
+
+@login_required
+def exit_room(request, pk: int):
+    if request.method == 'POST':
+        room: Room = get_object_or_404(Room, pk=pk)
+        room.participants.remove(request.user)
+        room.save()
+        return HttpResponseRedirect(f'/rooms/{pk}')

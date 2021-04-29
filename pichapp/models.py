@@ -65,8 +65,16 @@ class Room(models.Model):
     max_size = models.IntegerField(
         verbose_name='Participantes máximos'
     )
-    place = models.CharField(
-        verbose_name='Lugar',
+    region = models.CharField(
+        verbose_name='Región',
+        max_length=255
+    )
+    comuna = models.CharField(
+        verbose_name='Comuna',
+        max_length=255
+    )
+    meeting_place = models.CharField(
+        verbose_name='Lugar de encuentro',
         max_length=255
     )
     activity_datetime = models.DateTimeField(
@@ -76,6 +84,10 @@ class Room(models.Model):
     @property
     def is_full(self):
         return self.current_size >= self.max_size
+
+    @property
+    def place(self):
+        return f"{self.meeting_place} ({self.region}/{self.comuna})"
 
 
 @receiver(m2m_changed, sender=Room.participants.through)

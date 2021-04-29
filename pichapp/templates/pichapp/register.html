@@ -9,6 +9,7 @@
   <script src="https://kit.fontawesome.com/929bc70b66.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="{% static 'pichapp/mystyles.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'pichapp/register.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/floating.css' %}">
   <script src="{% static 'pichapp/notification.js' %}"></script>
 </head>
 
@@ -55,35 +56,37 @@
                 </div>
               </form>
             </div>
-              <div class="columns">
-                <div class="column is-one-third is-vcentered">
-                  <button class="button is-primary is-rounded is-outlined is-medium is-fullwidth" type="submit" form="myForm"> Registrarse </button>
+              <div class="columns is-centered">
+                <div class="column is-vcentered has-text-centered">
+                  <button class="button is-primary is-rounded is-light is-medium is-fullwidth" type="submit" form="myForm"> Registrarse </button>
                   <br>
                   <a class="button is-info is-rounded is-outlined is-small is-fullwidth" href="{% url 'login_user' %}"> Volver al inicio de sesión </a>
                 </div>
-                <div class="column">
-                  {% if error %}
-                  <div class="notification is-warning">
-                    <button type="button" class="delete" onclick="hide_notification(this)"><span class="icon">
-                      <i class="fas fa-times" aria-hidden="true"></i>
-                    </span></button>
-                    {% for o_error in error %}
-                      <p>{{ o_error }}</p>
-                    {% endfor %}
-                  </div>
-                  {% endif %}
-  
-                  {% if success %}
-                  <div class="notification is-success">
-                    <button type="button" class="delete" onclick="hide_notification(this)"><span class="icon">
-                      <i class="fas fa-times" aria-hidden="true"></i>
-                    </span></button>
-                  {{ success }}
-                  </div>
-                  {% endif %}
-                </div>
               </div>
           </div>
+        </div>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-half floating">
+          {% if error %}
+          <div class="notification is-warning">
+            <button type="button" class="delete" onclick="hide_notification(this)"><span class="icon">
+              <i class="fas fa-times" aria-hidden="true"></i>
+            </span></button>
+            {% for o_error in error %}
+              <p>{{ o_error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {% if success %}
+          <div class="notification is-success">
+            <button type="button" class="delete" onclick="hide_notification(this)"><span class="icon">
+              <i class="fas fa-times" aria-hidden="true"></i>
+            </span></button>
+          {{ success }}
+          </div>
+          {% endif %}
         </div>
       </div>
     </div>

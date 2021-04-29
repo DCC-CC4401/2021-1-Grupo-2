@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from pichapp.models import User
+from datetime import date
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -7,6 +8,26 @@ from django.contrib import messages
 
 
 # Create your views here.
+
+def create_room(request):
+    today = date.today().strftime("%Y-%m-%d")
+    if request.method == 'GET':  # Si estamos cargando la página
+        return render(request, "pichapp/room/create_room.html", {'fecha': today})  # Mostrar el template
+
+    if request.method == 'POST': #Estamos creando la sala (enviando el formulario)
+
+        nombre_cancha = request.POST["nombre_cancha"]
+        nombre_comuna = request.POST["nombre_comuna"]
+        nombre_region = request.POST["nombre_region"]
+        nombre_actividad = request.POST["nombre_actividad"]
+        fecha = request.POST["fecha"]
+        hora_encuentro = request.POST["hora_encuentro"]
+        tamano_sala = request.POST["tamano_sala"]
+        anfitrion = request.user.username #Obtenemos el nombre de usuario del anfitrión
+
+
+        return HttpResponseRedirect('/_sala')
+
 
 def register_user(request):
     if request.method == 'GET':  # Si estamos cargando la página

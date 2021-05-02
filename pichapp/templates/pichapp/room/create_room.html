@@ -56,10 +56,15 @@
             </div>
 
             <div class="field">
-              <label class="label">Deporte: </label>
-              <p class="control has-icons-right">
-                <input class="input" type="text" placeholder="Ej: Fútbol" name="nombre_actividad" required>
-              </p>
+              <label class="label"> Actividades </label>
+              <div class="select control has-icons-right">
+                <select id="actividades" class="input" name="nombre_actividad" required>
+                  <option disabled selected>Seleccione una actividad</option>
+                  {% for p in activities%}
+                  <option value={{p.verbose_name}}> {{p.verbose_name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
             </div>
 
             <div class="field">
@@ -82,7 +87,7 @@
                 <input class="input" type="number" name="tamano_sala" min="1" max="30" value="1" required>
               </p>
             </div>
-            <button class="button is-info is-rounded is-outlined is-medium" type="submit"> Crear Sala </button>
+            <button class="button is-info is-rounded is-outlined is-medium is-centered" type="submit"> Crear Sala </button>
           </form>
         </div>
       </div>

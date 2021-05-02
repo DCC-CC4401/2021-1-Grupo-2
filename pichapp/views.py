@@ -1,13 +1,48 @@
+from pichapp.models import User, Room, ActivityCategory
+from datetime import date, datetime
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
-from pichapp.models import User, Room
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponseNotFound
-from django.shortcuts import render, redirect
 from django.contrib import messages
 
 
 # Create your views here.
+
+def create_room(request):
+    today = date.today().strftime("%Y-%m-%d")
+    if request.method == 'GET':  # Si estamos cargando la página
+        # Mostrar el template
+        return render(request, "pichapp/room/create_room.html", {'fecha': today})
+
+    # Estamos creando la sala (enviando el formulario)
+    if request.method == 'POST':
+
+        nombre_sala = request.POST["nombre_sala"]
+        nombre_lugar = request.POST["nombre_lugar"]
+        nombre_comuna = request.POST["nombre_comuna"]
+        nombre_region = request.POST["nombre_region"]
+        nombre_actividad = request.POST["nombre_actividad"]
+
+        activity_object = ActivityCategory.objects.get(
+            verbose_name=nombre_actividad)
+
+        fecha = request.POST["fecha"]
+        hora_encuentro = request.POST["hora_encuentro"]
+        tamano_sala = int(request.POST["tamano_sala"])
+        anfitrion = request.user  # Obtenemos el nombre de usuario del anfitrión
+
+        room = Room.objects.create(name=nombre_sala, host=anfitrion, category=activity_object,
+                                   max_size=tamano_sala, region=nombre_region,
+                                   comuna=nombre_comuna, meeting_place=nombre_lugar,
+                                   activity_datetime=datetime.fromisoformat(fecha + "T" + hora_encuentro))
+        room.participants.add(anfitrion)
+
+        room.save()  # Guardamos la sala en la base
+        pk = room.id
+
+        return HttpResponseRedirect('/rooms/'+str(pk))
+
 
 def register_user(request):
     if request.method == 'GET':  # Si estamos cargando la página
@@ -19,19 +54,21 @@ def register_user(request):
         password = request.POST['password']
         email = request.POST['email']
 
-        context = {"error":[]}
+        context = {"error": []}
 
         if User.objects.filter(username=username).exists():
             context["error"].append("El usuario ya está en uso")
         if User.objects.filter(email=email).exists():
             context["error"].append("El email ya está en uso")
-        
+
         if len(context["error"]) > 0:
             return render(request, "pichapp/register.html", context)
 
         # Crear el nuevo usuario
-        user = User.objects.create_user(username=username, password=password, email=email)
-        messages.add_message(request, messages.INFO, "Usuario creado correctamente")
+        user = User.objects.create_user(
+            username=username, password=password, email=email)
+        messages.add_message(request, messages.INFO,
+                             "Usuario creado correctamente")
 
         # Redireccionar la página /login
         return HttpResponseRedirect("/login", context)
@@ -57,7 +94,7 @@ def login_user(request):
             login(request, user)
             return HttpResponseRedirect('/home')
         else:
-            context = {"error" : ["Usuario o contraseña incorrecta"]}
+            context = {"error": ["Usuario o contraseña incorrecta"]}
             return render(request, "pichapp/login.html", context)
 
 

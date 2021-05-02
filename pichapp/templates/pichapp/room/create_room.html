@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<style>
+  .container {
+    height: 50px;
+    position: relative;
+  }
+
+  .center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+</style>
+
 <head>
   {% load static %}
   <title> Creación de Sala</title>
@@ -26,7 +42,8 @@
             <div class="field">
               <label class="label">Nombre de la sala:</label>
               <p class="control has-icons-right">
-                <input class="input" type="text" placeholder="Ej: Best Team de pichangas 2021" name="nombre_sala" required>
+                <input class="input" type="text" placeholder="Ej: Best Team de pichangas 2021" name="nombre_sala"
+                  required>
               </p>
             </div>
 
@@ -41,7 +58,7 @@
               <label class="label">Región: </label>
               <div class="select control has-icons-right">
                 <select id="region" onchange="region_change(this)" class="input" name="nombre_region" required>
-                  <option value=""> Seleccione una región</option>
+                  <option disabled selected>Seleccione una región</option>
                 </select>
               </div>
             </div>
@@ -50,7 +67,7 @@
               <label class="label">Comuna: </label>
               <div class="select control has-icons-right">
                 <select id="comuna" class="input" name="nombre_comuna" required>
-                  <option value=""> Seleccione una comuna</option>
+                  <option disabled selected>Seleccione una comuna</option>
                 </select>
               </div>
             </div>
@@ -87,7 +104,11 @@
                 <input class="input" type="number" name="tamano_sala" min="1" max="30" value="1" required>
               </p>
             </div>
-            <button class="button is-info is-rounded is-outlined is-medium is-centered" type="submit"> Crear Sala </button>
+            <div class="container">
+              <div class="center">
+                <button class="button is-info is-rounded is-outlined is-medium" type="submit"> Crear Sala </button>
+              </div>
+            </div>
           </form>
         </div>
       </div>

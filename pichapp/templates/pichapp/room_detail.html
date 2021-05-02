@@ -14,7 +14,37 @@
 
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <img src="{% static 'pichapp/logo.png' %}" width="auto" height="200px">
+      <a class="navbar-item">
+        <img src="{% static 'pichapp/NavPortada.png' %}" width="112" height="28">
+      </a>
+  
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+  
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="{% url 'home_view' %}">
+          Home
+        </a>
+  
+        <a class="navbar-item" href="{% url 'create_room' %}"> 
+          Crear una sala
+        </a>
+      </div>
+  
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary" href="{% url 'logout_user' %}">
+              <strong>Logout</strong>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
 

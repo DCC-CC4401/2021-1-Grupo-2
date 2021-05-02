@@ -9,6 +9,7 @@ from django.contrib import messages
 
 # Create your views here.
 
+@login_required
 def create_room(request):
     today = date.today().strftime("%Y-%m-%d")
     if request.method == 'GET':  # Si estamos cargando la página
@@ -97,7 +98,7 @@ def login_user(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect('/home')
+            return HttpResponseRedirect('/')
         else:
             context = {"error": ["Usuario o contraseña incorrecta"]}
             return render(request, "pichapp/login.html", context)
@@ -105,7 +106,7 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-    return HttpResponseRedirect('/home')
+    return HttpResponseRedirect('/')
 
 
 def room_detail(request, pk: int):
@@ -141,3 +142,8 @@ def exit_room(request, pk: int):
         room.participants.remove(request.user)
         room.save()
         return HttpResponseRedirect(f'/rooms/{pk}')
+
+
+@login_required
+def home_view(request):
+    return render(request, "pichapp/working.html")

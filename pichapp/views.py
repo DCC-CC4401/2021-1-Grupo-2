@@ -136,3 +136,8 @@ def exit_room(request, pk: int):
         room.participants.remove(request.user)
         room.save()
         return HttpResponseRedirect(f'/rooms/{pk}')
+
+
+@login_required
+def home_view(request):
+    return render(request, "pichapp/working.html")

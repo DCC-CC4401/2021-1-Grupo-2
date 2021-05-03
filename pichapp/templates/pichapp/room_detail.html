@@ -7,107 +7,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css">
-  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/room_detail.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'pichapp/register.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'pichapp/mystyles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'pichapp/room_detail.css' %}">
 </head>
 
 <body>
+  {% include "pichapp/navbar.html" %}
 
-  <nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a class="navbar-item">
-        <img src="{% static 'pichapp/NavPortada.png' %}" width="112" height="28">
-      </a>
-  
-      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
-  
-    <div id="navbarBasicExample" class="navbar-menu">
-      <div class="navbar-start">
-        <a class="navbar-item" href="{% url 'home_view' %}">
-          Home
-        </a>
-  
-        <a class="navbar-item" href="{% url 'create_room' %}"> 
-          Crear una sala
-        </a>
-      </div>
-  
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <div class="buttons">
-            <a class="button is-primary" href="{% url 'logout_user' %}">
-              <strong>Logout</strong>
-            </a>
+  <div class="hero is-primary">
+    <div class="hero-body">
+      <h1 class="title has-text-centered is-size-2"> Pichangapp </h1>
+      <div class="container2">
+        <div class="container-button">
+          <a class="button is-info is-rounded is-small" href="#"> Volver a la búsqueda </a>
+        </div>
+        <div class="box2">
+          <div class="columns">
+            <div class="column container-info1">
+              <p>
+                <span class="has-text-weight-bold"> Nombre de sala: </span>{{ room.name }}
+              </p>
+              <p>
+                <span class="has-text-weight-bold"> Actividad: </span>{{ room.category.verbose_name }}
+              </p>
+              <p>
+                <span class="has-text-weight-bold"> Número de participantes: </span>{{ room.current_size }}
+              </p>
+              <p>
+                <span class="has-text-weight-bold"> Dirección: </span>{{ room.place }}
+              </p>
+                <p>
+                    <span class="has-text-weight-bold"> Fecha de encuentro: </span>{{ room.activity_datetime }}
+                </p>
+            </div>
+            <div class="column container-info2">
+              <div class="has-text-weight-bold"> Participantes: </div>
+                {% for p in room.participants.all%}
+                  <p>{{p.username}}</p>
+                {% endfor %}
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </nav>
-
-  <div class="container2">
-    <div class="container-button">
-      <a class="button back-to-search-button" href="#">Volver a la búsqueda</a>
-    </div>
-    <div class="box2">
-      <div class="columns">
-        <div class="column container-info1">
-          <p>
-            <span class="has-text-weight-bold"> Nombre de sala: </span>{{ room.name }}
-          </p>
-          <p>
-            <span class="has-text-weight-bold"> Actividad: </span>{{ room.category.verbose_name }}
-          </p>
-          <p>
-            <span class="has-text-weight-bold"> Número de participantes: </span>{{ room.current_size }}
-          </p>
-          <p>
-            <span class="has-text-weight-bold"> Lugar: </span>{{ room.place }}
-          </p>
-        </div>
-        <div class="column container-info2">
-          <div class="has-text-weight-bold"> Participantes: </div>
-            {% for p in room.participants.all%}
-              <p>{{p.username}}</p>
-            {% endfor %}
-        </div>
-      </div>
-    </div>
-    <div class="container-button is-right">
-      {% if in_room %}
-        <form action="{% url "room_exit" room.pk %}" method="post">
-          {% csrf_token %}
-          <button type="submit" class="button back-to-search-button">
-            Salir de la sala
-          </button>
-        </form>
-      {% else %}
-        {% if room.is_full %}
-          <button class="button" disabled>
-            Sala llena 😢
-          </button>
-        {% else %}
-          {% if is_authenticated %}
-            <form action="{% url "room_join" room.pk %}" method="post">
+        <div class="container-button is-right">
+          {% if in_room %}
+            <form action="{% url "room_exit" room.pk %}" method="post">
               {% csrf_token %}
-              <button type="submit" class="button back-to-search-button">
-                Entrar a la sala
-              </button>
+                <button class="button is-primary is-rounded is-light is-medium mb-2" type="submit">
+                Salir de la sala
+                </button>
             </form>
           {% else %}
-            <a class="button back-to-search-button" href={% url 'login_user' %}>
-              Entrar a la sala
-            </a>
+            {% if room.is_full %}
+              <button class="button is-primary is-rounded is-light is-medium mb-2" disabled>
+                Sala llena 😢
+              </button>
+            {% else %}
+              {% if is_authenticated %}
+                <form action="{% url "room_join" room.pk %}" method="post">
+                  {% csrf_token %}
+                  <button class="button is-primary is-rounded is-light is-medium mb-2" type="submit">
+                    Entrar a la sala
+                  </button>
+                </form>
+              {% else %}
+                <a class="button back-to-search-button" href={% url 'login_user' %}>
+                  Entrar a la sala
+                </a>
+              {% endif %}
+            {% endif %}
           {% endif %}
-        {% endif %}
-      {% endif %}
 
-
+        </div>
+      </div>
     </div>
   </div>
-
 </body>
+
 </html>

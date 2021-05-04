@@ -1,8 +1,7 @@
-<<<<<<< HEAD
 from django.shortcuts import render
 
 # Create your views here.
-=======
+
 from pichapp.models import User, Room, ActivityCategory
 from datetime import date, datetime
 from django.contrib.auth.decorators import login_required
@@ -152,4 +151,4 @@ def exit_room(request, pk: int):
 @login_required
 def home_view(request):
     return render(request, "pichapp/working.html")
->>>>>>> dev
+

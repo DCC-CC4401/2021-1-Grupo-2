@@ -1,0 +1,24 @@
+body {
+    padding: 0;
+    margin: 0;
+  }
+
+  .hero {
+    height: 110vh;
+    
+    position: relative;
+    background: rgb(195,161,34);
+    background: linear-gradient(0deg, rgba(195,161,34,0.44309061515231096) 0%, rgba(255,124,117,1) 100%);
+    /**
+    background-image: url("fondo.jpg");
+    **/
+  }
+
+  .notification {
+    padding-top: 20px;
+    padding-bottom: 30px;
+  }
+
+  .button {
+    margin-top: 10px;
+  }

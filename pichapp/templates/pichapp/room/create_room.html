@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+  .container {
+    height: 50px;
+    position: relative;
+  }
+
+  .center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+</style>
+
+<head>
+  {% load static %}
+  <title> Creación de Sala</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/mystyles.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/room.css' %}">
+  <script src="{% static 'pichapp/notification.js' %}"></script>
+  <script src="{% static 'pichapp/regiones_comunas.js' %}"> </script>
+</head>
+
+<body>
+{% include "pichapp/navbar.html" %}
+
+<div class="hero is-primary">
+  <div class="hero-body">
+    <h1 class="title has-text-centered is-size-2"> Pichangapp </h1>
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <div class="notification is-light">
+          <h1 class="subtitle has-text-centered is-3 has-text-dark"> Creación de Sala </h1>
+          <form method="POST" action="">
+            {% csrf_token %}
+            <!-- csrf token for basic security -->
+            <div class="field">
+              <label class="label">Nombre de la sala:</label>
+              <p class="control has-icons-right">
+                <input class="input" type="text" placeholder="Ej: Best Team de pichangas 2021" name="nombre_sala"
+                  required>
+              </p>
+            </div>
+
+            <div class="field">
+              <label class="label">Lugar de encuentro:</label>
+              <p class="control has-icons-right">
+                <input class="input" type="text" placeholder="Ej: Cancha los molinos" name="nombre_lugar" required>
+              </p>
+            </div>
+
+            <div class="field">
+              <label class="label">Región: </label>
+              <div class="select control has-icons-right">
+                <select id="region" onchange="region_change(this)" class="input" name="nombre_region" required>
+                  <option disabled selected>Seleccione una región</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Comuna: </label>
+              <div class="select control has-icons-right">
+                <select id="comuna" class="input" name="nombre_comuna" required>
+                  <option disabled selected>Seleccione una comuna</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label"> Actividades </label>
+              <div class="select control has-icons-right">
+                <select id="actividades" class="input" name="nombre_actividad" required>
+                  <option disabled selected>Seleccione una actividad</option>
+                  {% for p in activities%}
+                  <option value={{p.verbose_name}}> {{p.verbose_name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Fecha del encuentro: </label>
+              <p class="control has-icons-right">
+                <input type="date" id="start" name="fecha" value="{{ fecha }}" min="{{ fecha }}" required>
+              </p>
+            </div>
+
+            <div class="field">
+              <label class="label">Hora del encuentro: </label>
+              <p class="control has-icons-right">
+                <input type="time" id="appt" name="hora_encuentro" required>
+              </p>
+            </div>
+
+            <div class="field">
+              <label class="label"> Tamaño de la sala: </label>
+              <p class="control has-icons-right">
+                <input class="input" type="number" name="tamano_sala" min="1" max="30" value="1" required>
+              </p>
+            </div>
+            <div class="container">
+              <div class="center">
+                <button class="button is-info is-rounded is-outlined is-medium" type="submit"> Crear Sala </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Make regiones -->
+<script>
+  make_regiones();
+</script>
+
+</body>
+
+</html>

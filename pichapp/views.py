@@ -14,7 +14,12 @@ def create_room(request):
     today = date.today().strftime("%Y-%m-%d")
     if request.method == 'GET':  # Si estamos cargando la página
         # Mostrar el template
-        return render(request, "pichapp/room/create_room.html", {'fecha': today})
+        activities: Activities = ActivityCategory.objects.raw('SELECT name, verbose_name FROM pichapp_ActivityCategory')
+        context = {
+            'fecha': today,
+            'activities': activities
+        }
+        return render(request, "pichapp/room/create_room.html", context)
 
     # Estamos creando la sala (enviando el formulario)
     if request.method == 'POST':

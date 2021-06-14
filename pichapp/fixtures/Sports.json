@@ -16,5 +16,33 @@
           "verbose_name": "Tenis",
           "image": "pichapp/media/test.jpg"
         }
-      }
+    },
+    {
+        "model": "pichapp.ActivityCategory",
+        "pk": 3,
+        "fields": {
+          "name": "volleyball",
+          "verbose_name": "Volleyball",
+          "image": "pichapp/media/test.jpg"
+        }
+    },
+
+    {
+        "model": "pichapp.ActivityCategory",
+        "pk": 4,
+        "fields": {
+            "name": "basketball",
+            "verbose_name": "Basketball",
+            "image": "pichapp/media/test.jpg"
+        }
+    },
+    {
+        "model": "pichapp.ActivityCategory",
+        "pk": 5,
+        "fields": {
+            "name": "league_of_legends",
+            "verbose_name": "League of Legends",
+            "image": "pichapp/media/test.jpg"
+        }
+    }
 ]

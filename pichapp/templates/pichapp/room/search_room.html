@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+  .container {
+    height: 50px;
+    position: relative;
+  }
+
+  .search-nav {
+      background-color: #ff7c75 !important;
+  }
+
+  .center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+</style>
+
+<head>
+  {% load static %}
+  <title> Búsqueda de sala</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/mystyles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'pichapp/search_room.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="{% static 'pichapp/notification.js' %}"></script>
+</head>
+
+<body>
+{% include "pichapp/navbar.html" %}
+
+<div class="topnav search-nav">
+  <div class="search-container search-nav">
+      <form method="POST" action="">
+          {% csrf_token %}
+<!-- csrf token for basic security -->
+      <input type="number"
+placeholder="Buscar sala por id..." name="numero_sala" min = "1" required>
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-body">
+      <div class="columns is-centered">
+      <div class="column is-half floating">
+          {% if error %}
+              <div class="notification is-warning">
+                  <button type="button" class="delete" onclick="hide_notification(this)"><span class="icon">
+                      <i class="fas fa-times" aria-hidden="true"></i>
+                  </span></button>
+                  {% for o_error in error %}
+                      <p>{{ o_error }}</p>
+                  {% endfor %}
+              </div>
+          {% endif %}
+      </div>
+      </div>
+  </div>
+</div>
+
+</body>

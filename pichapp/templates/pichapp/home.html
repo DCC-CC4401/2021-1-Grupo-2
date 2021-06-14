@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/mystyles.css' %}">
+</head>
+<body>
+  {% include "pichapp/navbar.html" %}
+
+  <h2 class="has-text-centered title has-text-grey"> Página en construcción </h2>
+  <div class="columns is-centered">
+    <div class="column is-two-fifths">
+      <figure class="image container">
+        <img src="{% static 'pichapp/working_test.png' %}" width="100">
+      </figure>
+
+      {% for activity in sports %}
+      <figure class="image container">
+        <img src="{% static activity.image.url %}" width="100">
+      </figure>
+      {% endfor %}
+
+      <div>
+      </div>
+
+
+    </div>
+  </div>
+</body>
+</html>

@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.contrib import messages
-
+from django.db.models import Count
 
 # Create your views here.
 
@@ -98,7 +98,7 @@ def login_user(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/home')
         else:
             context = {"error": ["Usuario o contraseña incorrecta"]}
             return render(request, "pichapp/login.html", context)
@@ -146,4 +146,12 @@ def exit_room(request, pk: int):
 
 @login_required
 def home_view(request):
-    return render(request, "pichapp/working.html")
+    print("oka")
+    best_rooms = Room.objects.values('category').annotate(total=Count('category')).order_by('-total')[:3]
+    sports = ActivityCategory.objects.all()
+    context = {
+        "best_rooms" : best_rooms,
+        "sports" : ActivityCategory.objects.all()
+    }
+    return render(request, "pichapp/working.html", context)
+    

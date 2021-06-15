@@ -18,9 +18,21 @@ def search_room(request):
         today = date.today().strftime("%Y-%m-%d")
         activities: ActivityCategory = ActivityCategory.objects.raw(
             'SELECT name, verbose_name FROM pichapp_ActivityCategory')
+        salas = Room.objects.raw('SELECT * FROM pichapp_Room')
+        lista_salas = []
+        temp_salas = []
+        for sala in salas:
+            if len(temp_salas) <2:
+                temp_salas.append(sala)
+            else:
+                lista_salas.append(temp_salas)
+                temp_salas = [sala]
+        if len(temp_salas) != 0:
+            lista_salas.append(temp_salas)
         context = {
             'fecha': today,
-            'activities': activities
+            'activities': activities,
+            'lista_salas': lista_salas
         }
         return render(request, "pichapp/room/search_room.html", context)
 

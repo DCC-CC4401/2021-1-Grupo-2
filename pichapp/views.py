@@ -146,12 +146,11 @@ def exit_room(request, pk: int):
 
 @login_required
 def home_view(request):
-    print("oka")
     best_rooms = Room.objects.values('category').annotate(total=Count('category')).order_by('-total')[:3]
     sports = ActivityCategory.objects.all()
     context = {
         "best_rooms" : best_rooms,
         "sports" : ActivityCategory.objects.all()
     }
-    return render(request, "pichapp/working.html", context)
+    return render(request, "pichapp/home.html", context)
     

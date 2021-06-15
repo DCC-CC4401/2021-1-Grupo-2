@@ -15,10 +15,19 @@ from django.contrib import messages
 @login_required
 def search_room(request):
     if request.method == 'GET':
-        return render(request, "pichapp/room/search_room.html")
+        today = date.today().strftime("%Y-%m-%d")
+        activities: ActivityCategory = ActivityCategory.objects.raw(
+            'SELECT name, verbose_name FROM pichapp_ActivityCategory')
+        context = {
+            'fecha': today,
+            'activities': activities
+        }
+        return render(request, "pichapp/room/search_room.html", context)
+
     if request.method == 'POST':
         numero_sala = request.POST["numero_sala"]
-        sala_encontrada = Room.objects.raw('SELECT id FROM pichapp_Room WHERE id =' + numero_sala)
+        sala_encontrada = Room.objects.raw(
+            'SELECT id FROM pichapp_Room WHERE id =' + numero_sala)
         for p in sala_encontrada:
             if p.id == int(numero_sala):
                 return HttpResponseRedirect('/rooms/' + numero_sala + '/')
@@ -30,7 +39,8 @@ def create_room(request):
     today = date.today().strftime("%Y-%m-%d")
     if request.method == 'GET':  # Si estamos cargando la página
         # Mostrar el template
-        activities: ActivityCategory = ActivityCategory.objects.raw('SELECT name, verbose_name FROM pichapp_ActivityCategory')
+        activities: ActivityCategory = ActivityCategory.objects.raw(
+            'SELECT name, verbose_name FROM pichapp_ActivityCategory')
         print(activities)
         context = {
             'fecha': today,
@@ -164,4 +174,3 @@ def exit_room(request, pk: int):
 @login_required
 def home_view(request):
     return render(request, "pichapp/working.html")
-

@@ -7,8 +7,12 @@
     position: relative;
   }
 
+  .filter-container {
+    background-color: #cac7c7;
+  }
+
   .search-nav {
-      background-color: #ff7c75 !important;
+    background-color: #ff7c75 !important;
   }
 
   .center {
@@ -27,43 +31,101 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="{% static 'pichapp/mystyles.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'pichapp/search_room.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="{% static 'pichapp/notification.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/search_room.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="{% static 'pichapp/notification.js' %}"></script>
+  <script src="{% static 'pichapp/regiones_comunas.js' %}"> </script>
 </head>
 
 <body>
-{% include "pichapp/navbar.html" %}
+  {% include "pichapp/navbar.html" %}
 
-<div class="topnav search-nav">
-  <div class="search-container search-nav">
+  <div class="topnav search-nav">
+    <div class="search-container search-nav">
       <form method="POST" action="">
-          {% csrf_token %}
-<!-- csrf token for basic security -->
-      <input type="number"
-placeholder="Buscar sala por id..." name="numero_sala" min = "1" required>
-      <button type="submit"><i class="fa fa-search"></i></button>
-    </form>
+        {% csrf_token %}
+        <!-- csrf token for basic security -->
+        <input type="number" placeholder="Buscar sala por id..." name="numero_sala" min="1" required>
+        <button type="submit"><i class="fa fa-search"></i></button>
+      </form>
+    </div>
   </div>
-</div>
 
-<div class="hero">
-  <div class="hero-body">
-      <div class="columns is-centered">
-      <div class="column is-half floating">
-          {% if error %}
-              <div class="notification is-warning">
-                  <button type="button" class="delete" onclick="hide_notification(this)"><span class="icon">
-                      <i class="fas fa-times" aria-hidden="true"></i>
-                  </span></button>
-                  {% for o_error in error %}
-                      <p>{{ o_error }}</p>
-                  {% endfor %}
-              </div>
-          {% endif %}
+  <!--Navbar con los filtros-->
+  <div class="navbar filter-container">
+    <div class="navbar-menu filter-container">
+
+      <div class="navbar-start">
+        <div class="navbar-item">
+          <div>Filtrar por:</div>
+        </div>
       </div>
+
+      <div class="navbar-item">
+        <div class="field">
+          <div class="select control has-icons-right">
+            <select id="actividades" class="input" name="nombre_actividad" required>
+              <option disabled selected>Actividad</option>
+              {% for p in activities%}
+              <option value={{p.verbose_name}}> {{p.verbose_name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
       </div>
+
+      
+      <div class="navbar-item">
+        <div class="field">
+          <div class="select control has-icons-right">
+            <select id="region" onchange="region_change(this)" class="input" name="nombre_region" required>
+              <option disabled selected>Región</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="navbar-item">
+        <div class="field">
+          <div class="select control has-icons-right">
+            <select id="comuna" class="input" name="nombre_comuna" required>
+              <option disabled selected>Comuna</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+
+      <div class="navbar-item">
+        <div class="field">
+          <p class="control has-icons-right is-medium">
+            <input type="date" placeholder="From" id="start" name="fecha" value="{{ fecha }}" min="{{ fecha }}"
+              required>
+          </p>
+        </div>
+      </div>
+
+      <div class="navbar-item">
+        <div class="field">
+          <p class="control has-icons-right">
+            <input type="date" placeholder="To" id="finish" name="fecha" value="{{ fecha }}" min="{{ fecha }}" required>
+          </p>
+        </div>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <button class="button">Filtrar</button>
+        </div>
+      </div>
+
+    </div>
+
   </div>
-</div>
+
+
+  <script>
+    make_regiones();
+  </script>
 
 </body>

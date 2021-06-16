@@ -5,16 +5,16 @@
       "fields": {
         "name": "futbol",
         "verbose_name": "Fútbol",
-        "image": "pichapp/media/test.jpg"
+        "image": "pichapp/deportes/football-high.jpg"
       }
     },
     {
-        "model": "pichapp.ActivityCategory",
-        "pk": 2,
-        "fields": {
-          "name": "tenis",
-          "verbose_name": "Tenis",
-          "image": "pichapp/media/test.jpg"
-        }
+      "model": "pichapp.ActivityCategory",
+      "pk": 2,
+      "fields": {
+        "name": "tenis",
+        "verbose_name": "Tenis",
+        "image": "pichapp/deportes/tenis-high.jpg"
       }
+    }
 ]

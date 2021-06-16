@@ -6,28 +6,71 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="{% static 'pichapp/mystyles.css' %}">
+  <link rel="stylesheet" href="{% static 'pichapp/bulma-carousel/bulma-carousel.min.css' %}">
 </head>
 <body>
   {% include "pichapp/navbar.html" %}
 
-  <h2 class="has-text-centered title has-text-grey"> Página en construcción </h2>
+
+  <!-- Start Hero Carousel -->
   <div class="columns is-centered">
-    <div class="column is-two-fifths">
-      <figure class="image container">
-        <img src="{% static 'pichapp/working_test.png' %}" width="100">
-      </figure>
-
-      {% for activity in sports %}
-      <figure class="image container">
-        <img src="{% static activity.image.url %}" width="100">
-      </figure>
-      {% endfor %}
-
-      <div>
-      </div>
-
-
+    <div class="column is-four-fifths">
+      <section class="hero is-large has-carousel">
+        <div id="carousel-demo" class="hero-carousel">
+          {% for activity in best_rooms %}
+          <div class="item-1">
+            <figure class="image is-2by1"><img src="{% static activity.image.url %}"></figure>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="hero-head"></div>
+        <div class="hero-body"></div>
+        <div class="hero-foot"></div>
+      </section>
     </div>
   </div>
+	<!-- End Hero Carousel -->
+
+  <div class="tile is-ancestor ml-3 mr-3">
+    <div class="tile is-vertical">
+      {% for group in sports %}
+      <div class="tile">
+        {% for sport in group %}
+          {% if sport %}  
+          <div class="tile is-parent is-3">
+            <article class="tile is-child notification is-info">
+              <p class="title">Middle tile</p>
+              <p class="subtitle">{{ sport.name }}</p>
+              <figure class="image is-4by3">
+                <img src="{% static sport.image.url %}">
+              </figure>
+            </article>
+          </div>
+          {% else %}
+          <div class="tile is-parent">
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+    
+  </div>
+
+  <!-- Carousel script -->
+  <script src="{% static 'pichapp/bulma-carousel/bulma-carousel.min.js' %}"></script>
+  <script>
+    bulmaCarousel.attach('#carousel-demo', {
+      slidesToScroll: 1,
+      slidesToShow: 1,
+      infinite: true,
+    });
+  </script>
+
+	</body>
+</html>
+
+
+
 </body>
 </html>

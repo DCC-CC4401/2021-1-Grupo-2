@@ -85,8 +85,7 @@
 
   <!--Navbar con los filtros-->
   <div class="navbar filter-container">
-    <div class="navbar-menu filter-container">
-
+    <form class="navbar-menu filter-container" method="get" action="">
       <div class="navbar-start">
         <div class="navbar-item">
           <div>Filtrar por:</div>
@@ -96,7 +95,7 @@
       <div class="navbar-item">
         <div class="field">
           <div class="select control has-icons-right">
-            <select id="actividades" class="input" name="nombre_actividad" required>
+            <select id="actividades" class="input" name="nombre_actividad">
               <option disabled selected>Actividad</option>
               {% for p in activities%}
               <option value={{p.verbose_name}}> {{p.verbose_name}}</option>
@@ -110,7 +109,7 @@
       <div class="navbar-item">
         <div class="field">
           <div class="select control has-icons-right">
-            <select id="region" onchange="region_change(this)" class="input" name="nombre_region" required>
+            <select id="region" onchange="region_change(this)" class="input" name="nombre_region">
               <option disabled selected>Región</option>
             </select>
           </div>
@@ -120,7 +119,7 @@
       <div class="navbar-item">
         <div class="field">
           <div class="select control has-icons-right">
-            <select id="comuna" class="input" name="nombre_comuna" required>
+            <select id="comuna" class="input" name="nombre_comuna">
               <option disabled selected>Comuna</option>
             </select>
           </div>
@@ -131,8 +130,8 @@
       <div class="navbar-item">
         <div class="field">
           <p class="control has-icons-right is-medium">
-            <input type="date" placeholder="From" id="start" name="fecha" value="{{ fecha }}" min="{{ fecha }}"
-              required>
+            <input type="date" placeholder="From" id="start" name="fecha_inicio" value="{{ fecha }}" min="{{ fecha }}"
+              >
           </p>
         </div>
       </div>
@@ -140,18 +139,18 @@
       <div class="navbar-item">
         <div class="field">
           <p class="control has-icons-right">
-            <input type="date" placeholder="To" id="finish" name="fecha" value="{{ fecha }}" min="{{ fecha }}" required>
+            <input type="date" placeholder="To" id="finish" name="fecha_final" value="{{ fecha }}" min="{{ fecha }}">
           </p>
         </div>
       </div>
 
       <div class="navbar-end">
         <div class="navbar-item">
-          <button class="button">Filtrar</button>
+          <button class="button" name="filtrar">Filtrar</button>
         </div>
       </div>
 
-    </div>
+    </form>
 
   </div>
 
@@ -169,6 +168,7 @@
         <tbody>
               {% for par_salas in lista_salas%}
               <tr>
+              {% if par_salas|length == 2 %}
                   {% for sala in par_salas %}
                       <td>
                           <div class="center-container">
@@ -200,6 +200,41 @@
                           </div>
                       </td>
                   {% endfor %}
+              {% else %}
+                  {% for sala in par_salas %}
+                      <td>
+                          <div class="center-container">
+                              <a href="/rooms/{{ sala.id }}/">
+                                <div class="content-wrapper">
+                              <div class="room-box" style="grid-template-columns: 100% 0%">
+                                <div class="room-box-header">
+                                  <h2>
+                                    {{ sala.name }}
+                                  </h2>
+                                  <p>
+                                    {{ sala.category.verbose_name }}
+                                  </p>
+                                </div>
+                                <div class="room-box-info">
+                                  <p>
+                                    <span class="has-text-weight-bold"> Número de participantes: </span>{{ sala.current_size }}
+                                  </p>
+                                  <p>
+                                    <span class="has-text-weight-bold"> Dirección: </span>{{ sala.place }}
+                                  </p>
+                                  <p>
+                                    <span class="has-text-weight-bold"> Fecha de encuentro: </span>{{ sala.activity_datetime }}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                              </a>
+                          </div>
+                      </td>
+                  {% endfor %}
+                  <td>
+                  </td>
+              {% endif %}
               </tr>
               {% endfor %}
         </tbody>

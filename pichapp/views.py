@@ -143,14 +143,22 @@ def exit_room(request, pk: int):
         room.save()
         return HttpResponseRedirect(f'/rooms/{pk}')
 
+from django.core.paginator import Paginator
 
 @login_required
 def home_view(request):
-    best_rooms = Room.objects.values('category').annotate(total=Count('category')).order_by('-total')[:3]
+    best_rooms = Room.objects.values('category').annotate(total=Count('category')).order_by('-total').all()[:3]
+    best_rooms_context = []
+    for category in best_rooms:
+        best_rooms_context.append(ActivityCategory.objects.filter(name=category["category"])[0])
     sports = ActivityCategory.objects.all()
+    print(sports)
+    sports_context = [sports[x:x+4] for x in range(0, len(sports), 4)]
+    if 0 % 4 != 0:
+        sports_context[len(sports) // 4] = [False] + sports_context[len(sports) // 4] +[False]
     context = {
-        "best_rooms" : best_rooms,
-        "sports" : ActivityCategory.objects.all()
+        "best_rooms" : best_rooms_context,
+        "sports" : sports_context
     }
     return render(request, "pichapp/home.html", context)
     

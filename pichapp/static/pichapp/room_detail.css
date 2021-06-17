@@ -1,5 +1,5 @@
 .center-container {
-  margin-top: 5px;
+  margin-top: -52px;
   padding: 70px;
   width: 100%;
   display: flex;
@@ -20,7 +20,8 @@
 }
 
 .back-to-search-button {
-  background-color: #e9857f;
+  background-color: #ac6378 !important;
+  border: none !important;
   color: white;
 }
 
@@ -44,32 +45,51 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: auto auto auto 1fr;
   grid-template-areas:
-    "header" "info" "participants";
+    "header" "participants" "tabs" "info";
   background-color: white;
 }
 
 @media (min-width: 900px) {
   .room-box {
     grid-template-columns: 66% 34%;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto auto 370px;
     grid-template-areas:
-      "header participants"
+      "header header"
+      "tabs tabs"
       "info participants";
   }
 }
 
 .room-box-info {
-  background-color: #f5a9a2;
+  background-color: #ffefed;
   padding: 32px 64px 32px 64px;
   grid-area: info;
 }
 
+.room-box-tabs {
+  background-color: #ac6378;
+  grid-area: tabs;
+  color: #ffefed;
+}
+
+.room-box-tabs li.is-active a {
+  background-color: #ffefed !important;
+  color: rgb(74,74,74) !important;
+}
+
 .room-box-participants {
-  background-color: rgba(245, 169, 162, 0.2);
+  background-color: #ac6378;
+  color: #fff4f4;
   padding: 32px 64px 32px 64px;
   grid-area: participants;
+}
+
+@media (min-width: 900px) {
+  .room-box-tabs {
+    background-color: #f1958a;
+  }
 }
 
 .room-box-participants h3 {

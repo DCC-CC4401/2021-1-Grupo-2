@@ -1,0 +1,23 @@
+<nav class="navbar is-size-5 has-shadow is-black">
+  {% load static %}
+  <!-- Logo -->
+  <div class="navbar-brand"></div>
+  <a class="navbar-item">
+    <img src="{% static 'pichapp/Pichangapp_morado_horizontal.jpg' %}" alt="Pichangapp logo">
+  </a>
+  <div class="navbar-menu" id="nav-links">
+    <!-- About us -->
+    <div class="navbar-start">
+      <a href="" class="navbar-item">¿Quiénes Somos?</a>
+    </div>
+    <div class="navbar-end">
+    <!-- Buttons -->
+      <div class="navbar-item">
+        <div class="buttons">
+          <a href="{% url 'register_user' %}" class="button is-primary">Regístrate</a>
+          <a href="{% url 'login_user' %}" class="button is-dark">Iniciar sesión</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -161,4 +161,6 @@ def home_view(request):
         "sports" : sports_context
     }
     return render(request, "pichapp/home.html", context)
-    
+
+def landing_view(request):
+    return render(request, "pichapp/landing.html")

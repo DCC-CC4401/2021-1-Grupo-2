@@ -117,3 +117,6 @@ GitHub.sublime-settings
 
 # Pycharm related files
 .idea/*
+
+# Vscode related files
+.vscode/*

@@ -66,6 +66,38 @@
   background-color: #ffefed;
   padding: 32px 64px 32px 64px;
   grid-area: info;
+  display: none !important;
+  overflow: scroll;
+}
+
+.room-box-chat {
+  background-color: #ffefed;
+  padding: 32px 64px 32px 64px;
+  grid-area: info;
+  overflow: scroll;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+
+.message-bubble {
+  padding: 16px;
+  margin-left: -75px;
+  background-color: white;
+  border-radius: 12px;
+  z-index: 10;
+}
+
+.message-bubble-root {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 70px solid white;
 }
 
 .room-box-tabs {

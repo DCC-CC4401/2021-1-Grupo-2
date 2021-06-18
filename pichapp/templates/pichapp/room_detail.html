@@ -59,6 +59,33 @@
                 <span class="has-text-weight-bold"> Fecha de encuentro: </span>{{ room.activity_datetime }}
               </p>
             </div>
+            <div class="room-box-chat">
+              <div class="message-container">
+                <figure class="image is-64x64 message-avatar">
+                  <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+                </figure>
+                <div class="message-bubble-root"></div>
+                <div class="message-bubble">
+                  <p class="message-date">Hace 4 minutos</p>
+                  <p class="message-content">Oye cuando nos juntamos?</p>
+                </div>
+              </div>
+              <div class="message-container">
+                <figure class="image is-64x64 message-avatar">
+                  <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+                </figure>
+                <div class="message-bubble">
+                  <p class="message-date">Hace 2 minutos</p>
+                  <p class="message-content">El miércoles bro</p>
+                </div>
+              </div>
+              <form>
+                <input type="text" class="message-field">
+                </input>
+                <input type="submit">
+                </input>
+              </form>
+            </div>
             <div class="room-box-participants">
               <h3 class="has-text-weight-bold"> Participantes:</h3>
               <div class="participants-list">

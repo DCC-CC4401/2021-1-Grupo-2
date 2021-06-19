@@ -66,7 +66,7 @@
   background-color: #ffefed;
   padding: 32px 64px 32px 64px;
   grid-area: info;
-  display: none !important;
+  display: block;
   overflow: scroll;
 }
 
@@ -98,12 +98,12 @@
   border-radius: 12px;
   z-index: 10;
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: auto 1fr auto;
   grid-template-columns: 1fr;
   grid-template-areas:
+  "name name"
   "content content"
   "_ date";
-  row-gap: 8px;
 }
 
 .message-bubble-root {
@@ -125,6 +125,14 @@ span.message-date {
   color: #9e9e9e;
   font-size: 0.75rem;
   grid-area: date;
+  margin-top: 8px;
+}
+
+span.message-name {
+  color: #906767;
+  font-weight: 700;
+  font-size: 1rem;
+  grid-area: name;
 }
 
 .message-field-form {

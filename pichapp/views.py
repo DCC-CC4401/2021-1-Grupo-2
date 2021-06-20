@@ -15,6 +15,7 @@ from django.contrib import messages
 @login_required
 def search_room(request):
     if request.method == 'GET':
+        print(request.GET)
         if 'filtrar' in request.GET: ##Caso el llamado GET es dado por el botón de filtrar
 
             today = date.today().strftime("%Y-%m-%d")
@@ -100,6 +101,7 @@ def search_room(request):
             if p.id == int(numero_sala):
                 return HttpResponseRedirect('/rooms/' + numero_sala + '/')
         context = {'error': ["Id de la sala inexistente"]}
+        print(context)
         return render(request, "pichapp/room/search_room.html", context)
 
 

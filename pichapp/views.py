@@ -8,7 +8,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.contrib import messages
-
+from pichapp.aux_modules.search_room import *
 
 # Create your views here.
 
@@ -16,54 +16,22 @@ from django.contrib import messages
 def search_room(request):
     if request.method == 'GET':
         print(request.GET)
-        if 'filtrar' in request.GET: ##Caso el llamado GET es dado por el botón de filtrar
-
+        if 'filtrar' in request.GET:  # Caso el llamado GET es dado por el botón de filtrar
             today = date.today().strftime("%Y-%m-%d")
             activities: ActivityCategory = ActivityCategory.objects.raw(
                 'SELECT name, verbose_name FROM pichapp_ActivityCategory')
-            ##En vez de seleccionar todas las salas, vamos a filtrarlas por los parámetros entregados
-            where_search = 'WHERE '
-            found_param = False
-            if 'nombre_actividad' in request.GET:
-                where_search += 'category_id = "' + request.GET['nombre_actividad'] + '"'
-                found_param = True
-            if 'nombre_region' in request.GET:
-                if request.GET['nombre_region'] != '':
-                    if found_param:
-                        where_search += ' AND region = "' + request.GET['nombre_region'] + '"'
-                    else:
-                        found_param = True
-                        where_search += 'region = "' + request.GET['nombre_region'] + '"'
-            if 'nombre_comuna' in request.GET:
-                if request.GET['nombre_comuna'] != '':
-                    if found_param:
-                        where_search += ' AND comuna = "' + request.GET['nombre_comuna'] + '"'
-                    else:
-                        found_param = True
-                        where_search += 'comuna = "' + request.GET['nombre_comuna'] + '"'
-            if ('fecha_inicio' in request.GET) and ('fecha_final' in request.GET):
-                if found_param:
-                    where_search += ' AND activity_datetime BETWEEN "' + request.GET['fecha_inicio'] \
-                                    + ' 00:00:00.000" AND "' + request.GET['fecha_final'] + ' 23:59:59.999"'
-                else:
-                    found_param = True
-                    where_search += 'activity_datetime BETWEEN "' + request.GET['fecha_inicio'] \
-                                    + ' 00:00:00.000" AND "' + request.GET['fecha_final'] + ' 23:59:59.999"'
-            print(where_search)
+            # Se busca si hay algún parámetro que valga la pena filtrar
+            found_param = find_param(request.GET)
+
             if found_param:
-                salas = Room.objects.raw('SELECT * FROM pichapp_Room ' + where_search)
+                salas = filtrar_salas(request.GET)
+                print(salas)
+
             else:
                 salas = Room.objects.raw('SELECT * FROM pichapp_Room')
-            lista_salas = []
-            temp_salas = []
-            for sala in salas:
-                if len(temp_salas) < 2:
-                    temp_salas.append(sala)
-                else:
-                    lista_salas.append(temp_salas)
-                    temp_salas = [sala]
-            if len(temp_salas) != 0:
-                lista_salas.append(temp_salas)
+
+            lista_salas = make_salas(salas)
+            
             context = {
                 'fecha': today,
                 'activities': activities,
@@ -71,26 +39,9 @@ def search_room(request):
             }
 
             return render(request, "pichapp/room/search_room.html", context)
+        # Página por default
         else:
-            today = date.today().strftime("%Y-%m-%d")
-            activities: ActivityCategory = ActivityCategory.objects.raw(
-                'SELECT name, verbose_name FROM pichapp_ActivityCategory')
-            salas = Room.objects.raw('SELECT * FROM pichapp_Room')
-            lista_salas = []
-            temp_salas = []
-            for sala in salas:
-                if len(temp_salas) < 2:
-                    temp_salas.append(sala)
-                else:
-                    lista_salas.append(temp_salas)
-                    temp_salas = [sala]
-            if len(temp_salas) != 0:
-                lista_salas.append(temp_salas)
-            context = {
-                'fecha': today,
-                'activities': activities,
-                'lista_salas': lista_salas
-            }
+            context = search_default_context()
             return render(request, "pichapp/room/search_room.html", context)
 
     if request.method == 'POST':
@@ -100,8 +51,10 @@ def search_room(request):
         for p in sala_encontrada:
             if p.id == int(numero_sala):
                 return HttpResponseRedirect('/rooms/' + numero_sala + '/')
-        context = {'error': ["Id de la sala inexistente"]}
-        print(context)
+        # Falla la busqueda por id, se retorna la página por default
+        # junto a mensaje de error
+        context = search_default_context()
+        context['error'] = ["Id de la sala inexistente"]
         return render(request, "pichapp/room/search_room.html", context)
 
 

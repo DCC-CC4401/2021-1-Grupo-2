@@ -47,7 +47,7 @@
     },
     {
         "model": "pichapp.ActivityCategory",
-        "pk": 5,
+        "pk": 6,
         "fields": {
             "name": "handball",
             "verbose_name": "Handball",

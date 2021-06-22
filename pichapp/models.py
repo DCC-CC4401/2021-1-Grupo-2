@@ -24,6 +24,7 @@ class ActivityCategory(models.Model):
     )
     image = models.ImageField(
         verbose_name='Imagen',
+        upload_to='pichapp/media',
         null=True
     )
 

@@ -1,0 +1,30 @@
+<nav class="navbar is-size-5 has-shadow is-fixed-top is-light">
+  {% load static %}
+
+<!-- Container? -->
+<div class="container is-fullhd">
+
+  <!-- Logo -->
+  <div class="navbar-brand"></div>
+  <a class="navbar-item">
+    <img src="{% static 'pichapp/NavPortada.png' %}" width="112" height="28" alt="pichangapp logo">
+  </a>
+  <div class="navbar-menu" id="nav-links">
+    <!-- About us -->
+    <div class="navbar-start">
+      <a href="{% url 'home_view' %}" class="navbar-item">Home</a>
+      <a href="{% url 'create_room' %}" class="navbar-item">Crear Sala</a>
+    </div>
+    <div class="navbar-end">
+    <!-- Buttons -->
+      <div class="navbar-item">
+        <div class="buttons">
+          <a href="{% url 'register_user' %}" class="button is-primary">Regístrate</a>
+          <a href="{% url 'login_user' %}" class="button">Iniciar sesión</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</nav>

@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.contrib import messages
-
+from django.db.models import Count
 
 # Create your views here.
 
@@ -98,7 +98,7 @@ def login_user(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/home')
         else:
             context = {"error": ["Usuario o contraseña incorrecta"]}
             return render(request, "pichapp/login.html", context)
@@ -146,4 +146,23 @@ def exit_room(request, pk: int):
 
 @login_required
 def home_view(request):
-    return render(request, "pichapp/working.html")
+    best_rooms = Room.objects.values('category').annotate(total=Count('category')).order_by('-total').all()[:3]
+    best_rooms_context = []
+    for category in best_rooms:
+        best_rooms_context.append(ActivityCategory.objects.filter(name=category["category"])[0])
+    sports = ActivityCategory.objects.all()
+    print(sports)
+    sports_context = [sports[x:x+4] for x in range(0, len(sports), 4)]
+    if 0 % 4 != 0:
+        sports_context[len(sports) // 4] = [False] + sports_context[len(sports) // 4] +[False]
+    context = {
+        "best_rooms" : best_rooms_context,
+        "sports" : sports_context
+    }
+    return render(request, "pichapp/home.html", context)
+
+def landing_view(request):
+    if not request.user.is_authenticated:
+        return render(request, "pichapp/landing.html")
+    else:
+        return home_view(request)

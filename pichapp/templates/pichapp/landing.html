@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="has-navbar-fixed-top">
 <head>
   {% load static %}
   <meta charset="UTF-8">
@@ -10,10 +10,20 @@
 <body>
   {% include "pichapp/navbar_landing.html" %}
 
+  <!-- Hero (?) -->
+  <section class="hero is-primary">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title"> PichangApp </h1>
+        <p class="subtitle"> Tu aplicación para chutear </p>
+      </div>
+    </div>
+  </section>
+
   <div></div>
   <div class="columns" style="margin-top:100px">
 
-    <!-- Right side: -->
+    <!-- Left side: -->
 
     <div class="column is-two-fifths">
       <div class="columns">
@@ -40,24 +50,47 @@
       </div>
     </div>
 
-    <!-- Left side -->
+    <!-- Right side -->
 
     <div class="column">
       <div class="columns">
         <div class="column is-one-fifth"></div> <!-- Espaciado -->
         <div class="column is-three-fifths"> <!-- Content -->
           <figure class="image container" width=100>
-            <img src="{% static 'pichapp/working_test.png' %}">
+            <img src="{% static 'pichapp/silueta.png' %}">
           </figure>
         </div>
       </div>
     </div>
   </div>
-  
-  <!-- Bottom side -->
+  <br>
 
-  <div>
+  <!-- Another Hero (?) -->
+
+  <section class="hero is-primary">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">¿Por qué usar PichangApp?</h1>
+        <br>
+        <h2 class="subtitle">
+          PichangApp te permite <strong>armar</strong> encuentros deportivos de manera fácil y <strong>unirse</strong> a encuentros de otros usuarios.
+          </h2>
+      </div>
+    </div>
+    <br>
+    <br>
+    
+  </section>
+
+  <!-- Footer -->
+
+  <footer class="footer">
+  <div class="content has-text-centered">
+    <p is-size-4>
+      Esto es un footer. No se me ocurre que poner, pero parece buena práctica tener uno
+    </p>
   </div>
+</footer>
 
 </body>
 </html>

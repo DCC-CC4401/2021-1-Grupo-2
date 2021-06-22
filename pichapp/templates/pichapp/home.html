@@ -40,8 +40,8 @@
         {% for sport in group %}
           {% if sport %}  
           <div class="tile is-parent is-3">
-            <article class="tile is-child notification is-info">
-              <p class="title">Middle tile</p>
+            <article class="tile is-child notification is-primary">
+              <p class="title">{{sport.verbose_name}}</p>
               <p class="subtitle">
               <a href="{% url 'home_view' %}?nombre_actividad={{sport.name}}"> <!-- TODO CAMBIAR ESTE PATH-->
                 <figure class="image is-4by3">

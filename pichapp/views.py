@@ -163,4 +163,7 @@ def home_view(request):
     return render(request, "pichapp/home.html", context)
 
 def landing_view(request):
-    return render(request, "pichapp/landing.html")
+    if not request.user.is_authenticated:
+        return render(request, "pichapp/landing.html")
+    else:
+        return home_view(request)

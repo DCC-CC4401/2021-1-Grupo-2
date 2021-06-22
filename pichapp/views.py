@@ -143,7 +143,6 @@ def exit_room(request, pk: int):
         room.save()
         return HttpResponseRedirect(f'/rooms/{pk}')
 
-from django.core.paginator import Paginator
 
 @login_required
 def home_view(request):

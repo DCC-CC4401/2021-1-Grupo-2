@@ -19,7 +19,9 @@
         <div id="carousel-demo" class="hero-carousel">
           {% for activity in best_rooms %}
           <div class="item-1">
-            <figure class="image is-2by1"><img src="{% static activity.image.url %}"></figure>
+            <a href="{% url 'home_view' %}?nombre_actividad={{activity.name}}"> <!-- TODO CAMBIAR ESTE PATH-->
+              <figure class="image is-2by1"><img src="{% static activity.image.url %}"></figure>
+            </a>
           </div>
           {% endfor %}
         </div>
@@ -40,10 +42,12 @@
           <div class="tile is-parent is-3">
             <article class="tile is-child notification is-info">
               <p class="title">Middle tile</p>
-              <p class="subtitle">{{ sport.name }}</p>
-              <figure class="image is-4by3">
-                <img src="{% static sport.image.url %}">
-              </figure>
+              <p class="subtitle">
+              <a href="{% url 'home_view' %}?nombre_actividad={{sport.name}}"> <!-- TODO CAMBIAR ESTE PATH-->
+                <figure class="image is-4by3">
+                  <img src="{% static sport.image.url %}">
+                </figure>
+              </a>
             </article>
           </div>
           {% else %}

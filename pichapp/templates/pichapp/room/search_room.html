@@ -54,7 +54,6 @@
   <link rel="stylesheet" type="text/css" href="{% static 'pichapp/search_room.css' %}">
   <link rel="stylesheet" href="{% static 'pichapp/dataTables.bulma.min.css'  %}" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/room_detail.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'pichapp/register.css' %}">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
 
@@ -173,7 +172,7 @@
           {% for sala in par_salas %}
           <td>
             <div class="center-container">
-              <a href="/rooms/{{ sala.id }}/">
+              <a href="/rooms/{{ sala.id }}/" class = "link_salas">
                 <div class="content-wrapper">
                   <div class="room-box" style="grid-template-columns: 100% 0%">
                     <div class="room-box-header">
@@ -206,7 +205,7 @@
           {% for sala in par_salas %}
           <td>
             <div class="center-container">
-              <a href="/rooms/{{ sala.id }}/">
+              <a href="/rooms/{{ sala.id }}/" class = "link_salas">
                 <div class="content-wrapper">
                   <div class="room-box" style="grid-template-columns: 100% 0%">
                     <div class="room-box-header">
@@ -312,13 +311,17 @@
     });
 
     $('.table').DataTable({
+        columns: [
+    { width: "1px"},
+            { width: "1px"}
+        ],
+        autoWidth: false,
       paging: true,
       info: false,
       pageLength: 2,
       searching: false,
       lengthChange: false,
       ordering: false,
-      autoWidth: true,
       scrollCollapse: true,
       responsive: {
         details: {

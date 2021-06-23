@@ -36,7 +36,8 @@ def filtrar_salas(dict):
     Retorna un objeto Room con las salas filtradas según las entradas de dict
     """
     L = make_params_list(dict)
-    room = Room.objects
+    today = date.today().strftime("%Y-%m-%d")
+    room = Room.objects.filter(activity_datetime__gte = datetime.fromisoformat(today))
     if 'nombre_actividad' in L:
         room = room.filter(category_id = dict['nombre_actividad'])
     if 'nombre_region' in L:
@@ -76,7 +77,8 @@ def search_default_context():
     today = date.today().strftime("%Y-%m-%d")
     activities: ActivityCategory = ActivityCategory.objects.raw(
         'SELECT name, verbose_name FROM pichapp_ActivityCategory')
-    salas = Room.objects.raw('SELECT * FROM pichapp_Room')
+    salas = Room.objects #Room.objects.raw('SELECT * FROM pichapp_Room')
+    salas = salas.filter(activity_datetime__gte = datetime.fromisoformat(today)) #Room.objects.raw('SELECT * FROM pichapp_Room')
     lista_salas = make_salas(salas)
 
     context = {

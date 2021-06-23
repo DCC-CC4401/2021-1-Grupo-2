@@ -28,10 +28,16 @@ const initApp = () => {
 }
 
 let writtenIDs = [];
+const DateTime = luxon.DateTime;
 
-function writeMessage(username, message, date, id) {
-	if (writtenIDs.includes(id)) return;
+function writeMessage(message) {
+	const idMessage = message['id'];
+	if (writtenIDs.includes(idMessage)) return;
 	const roomChat = document.querySelector(".messages-wrapper");
+	const username = message['user']['name'];
+	const content = message['content'];
+	const date = DateTime.fromISO(message['creation_date']).toLocaleString(DateTime.DATETIME_MED);
+	if (roomChat === null) {return;}
 	roomChat.innerHTML = `
     <div class="message-container">
 	  <figure class="image is-64x64 message-avatar">
@@ -40,17 +46,29 @@ function writeMessage(username, message, date, id) {
 	  <div class="message-bubble-root"></div>
 	  <div class="message-bubble">
 		<span class="message-name">@${username}</span>
-		<p class="message-content">${message}</p>
+		<p class="message-content">${content}</p>
 		<span class="message-date">${date}</span>
 	  </div>
 	</div>` + roomChat.innerHTML;
-	writtenIDs.push(id);
+	writtenIDs.push(idMessage);
 }
 
 function loadMessages() {
 	fetch(`chat/messages`)
 		.then(response => response.json())
-			.then(data => console.log(data))
+			.then(data => data['messages'].forEach(message => writeMessage(message)))
+		.catch(error => console.log(error));
+}
+
+function submitMessage() {
+	const messageInput = document.querySelector(".message-field-input");
+	const messageContent = messageInput.value;
+	if (messageContent.length < 1) {
+		return;
+	}
+	const messageData = JSON.stringify({content: messageContent});
+	fetch(`chat/messages`,{method: "POST", body: messageData})
+		.then(_ => {messageInput.value = ''})
 		.catch(error => console.log(error));
 }
 

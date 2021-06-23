@@ -1,4 +1,5 @@
-from django.http.response import JsonResponse
+import json
+from django.http.response import HttpResponseNotAllowed, JsonResponse
 from pichapp.models import User, Room, ActivityCategory
 from datetime import date, datetime
 from django.contrib.auth.decorators import login_required
@@ -128,23 +129,31 @@ def room_detail(request, pk: int):
 
 
 def room_chat_messages(request, pk: int):
+    user: User = request.user;
     if request.method == 'GET':
         room: Room = get_object_or_404(Room, pk=pk)
         return JsonResponse({
             "messages": [{
+                "id": "123",
                 "user": {
-                    "name": request.user.username,
+                    "name": user.username,
                 },
                 "content": "HOLA",
                 "creation_date": room.creation_date,
             }, {
+                "id": "12",
                 "user": {
-                    "name": request.user.username,
+                    "name": user.username,
                 },
                 "content": "segundo msg",
                 "creation_date": room.creation_date,
             }],
         })
+    elif request.method == 'POST':
+        if not user.is_authenticated:
+            return HttpResponseNotAllowed();
+        data = json.loads(request.body)
+        # TODO: make a message with this data
         
 
 @login_required

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" class="has-navbar-fixed-top">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/mystyles.css' %}">
+</head>
+<body>
+  {% include "pichapp/navbar_landing.html" %}
+
+  <!-- Hero (?) -->
+  <section class="hero is-primary">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title"> PichangApp </h1>
+        <p class="subtitle"> Tu aplicación para chutear </p>
+      </div>
+    </div>
+  </section>
+
+  <div></div>
+  <div class="columns" style="margin-top:100px">
+
+    <!-- Left side: -->
+
+    <div class="column is-two-fifths">
+      <div class="columns">
+        <div class="column is-two-fifths"></div>
+        <div class="column">
+          <p class="mb-4 is-size-1">
+            Aburrid@?
+          </p>
+          
+          <!-- Adds 0.25rem of padding on the left and the right -->
+          <p class="px-5 mb-4 is-size-2">
+            Skte una <span style="color: #ff0000">Pichanga</span> po
+          </p>
+          
+          <!-- Removes the margin on the right and adds 0.75rem padding at the top -->
+          <p class="px-6 is-size-2">
+            O únete a una
+          </p>
+          <div class="buttons" style="margin: 60px">
+            <a href="{% url 'register_user' %}" class="button is-primary is-large">Empezar a chutear</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Right side -->
+
+    <div class="column">
+      <div class="columns">
+        <div class="column is-one-fifth"></div> <!-- Espaciado -->
+        <div class="column is-three-fifths"> <!-- Content -->
+          <figure class="image container" width=100>
+            <img src="{% static 'pichapp/silueta.png' %}">
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <!-- Another Hero (?) -->
+
+  <section class="hero is-primary">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">¿Por qué usar PichangApp?</h1>
+        <br>
+        <h2 class="subtitle">
+          PichangApp te permite <strong>armar</strong> encuentros deportivos de manera fácil y <strong>unirse</strong> a encuentros de otros usuarios.
+          </h2>
+      </div>
+    </div>
+    <br>
+    <br>
+    
+  </section>
+
+  <!-- Footer -->
+
+  <footer class="footer">
+  <div class="content has-text-centered">
+    <p is-size-4>
+      Esto es un footer. No se me ocurre que poner, pero parece buena práctica tener uno
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/mystyles.css' %}">
+  <link rel="stylesheet" href="{% static 'pichapp/bulma-carousel/bulma-carousel.min.css' %}">
+</head>
+<body>
+  {% include "pichapp/navbar.html" %}
+
+
+  <!-- Start Hero Carousel -->
+  <div class="columns is-centered">
+    <div class="column is-four-fifths">
+      <section class="hero is-large has-carousel">
+        <div id="carousel-demo" class="hero-carousel">
+          {% for activity in best_rooms %}
+          <div class="item-1">
+            <a href="{% url 'home_view' %}?nombre_actividad={{activity.name}}"> <!-- TODO CAMBIAR ESTE PATH-->
+              <figure class="image is-2by1"><img src="{% static activity.image.url %}"></figure>
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="hero-head"></div>
+        <div class="hero-body"></div>
+        <div class="hero-foot"></div>
+      </section>
+    </div>
+  </div>
+	<!-- End Hero Carousel -->
+
+  <div class="tile is-ancestor ml-3 mr-3">
+    <div class="tile is-vertical">
+      {% for group in sports %}
+      <div class="tile">
+        {% for sport in group %}
+          {% if sport %}  
+          <div class="tile is-parent is-3">
+            <article class="tile is-child notification is-primary">
+              <p class="title">{{sport.verbose_name}}</p>
+              <p class="subtitle">
+              <a href="{% url 'home_view' %}?nombre_actividad={{sport.name}}"> <!-- TODO CAMBIAR ESTE PATH-->
+                <figure class="image is-4by3">
+                  <img src="{% static sport.image.url %}">
+                </figure>
+              </a>
+            </article>
+          </div>
+          {% else %}
+          <div class="tile is-parent">
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+    
+  </div>
+
+  <!-- Carousel script -->
+  <script src="{% static 'pichapp/bulma-carousel/bulma-carousel.min.js' %}"></script>
+  <script>
+    bulmaCarousel.attach('#carousel-demo', {
+      slidesToScroll: 1,
+      slidesToShow: 1,
+      infinite: true,
+    });
+  </script>
+
+	</body>
+</html>
+
+
+
+</body>
+</html>

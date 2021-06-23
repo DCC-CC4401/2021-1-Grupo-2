@@ -1,3 +1,19 @@
+function getCookie(name) {
+	let cookieValue = null;
+	if (document.cookie && document.cookie !== '') {
+		const cookies = document.cookie.split(';');
+		for (let i = 0; i < cookies.length; i++) {
+			const cookie = cookies[i].trim();
+			if (cookie.substring(0, name.length + 1) === (name + '=')) {
+				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+				break;
+			}
+		}
+	}
+	return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
 const initApp = () => {
 	const roomBox = document.querySelector(".room-box");
 	let curPage = document.getElementById('info');
@@ -38,7 +54,7 @@ function writeMessage(message) {
 	const content = message['content'];
 	const date = DateTime.fromISO(message['creation_date']).toLocaleString(DateTime.DATETIME_MED);
 	if (roomChat === null) {return;}
-	roomChat.innerHTML = `
+	roomChat.innerHTML = roomChat.innerHTML + `
     <div class="message-container">
 	  <figure class="image is-64x64 message-avatar">
 		<img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
@@ -49,7 +65,7 @@ function writeMessage(message) {
 		<p class="message-content">${content}</p>
 		<span class="message-date">${date}</span>
 	  </div>
-	</div>` + roomChat.innerHTML;
+	</div>`;
 	writtenIDs.push(idMessage);
 }
 
@@ -67,7 +83,19 @@ function submitMessage() {
 		return;
 	}
 	const messageData = JSON.stringify({content: messageContent});
-	fetch(`chat/messages`,{method: "POST", body: messageData})
+	const request = new Request(
+		"chat/messages",
+		{
+			headers: {
+				'X-CSRFToken': csrftoken
+			}
+		}
+	)
+	fetch(request,{
+			method: "POST",
+			body: messageData,
+			mode: 'same-origin'
+		})
 		.then(_ => {messageInput.value = ''})
 		.catch(error => console.log(error));
 }

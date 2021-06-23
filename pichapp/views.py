@@ -1,6 +1,6 @@
 import json
-from django.http.response import HttpResponseNotAllowed, JsonResponse
-from pichapp.models import User, Room, ActivityCategory
+from django.http.response import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
+from pichapp.models import RoomMessage, User, Room, ActivityCategory
 from datetime import date, datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
@@ -130,30 +130,38 @@ def room_detail(request, pk: int):
 
 def room_chat_messages(request, pk: int):
     user: User = request.user;
+    room: Room = get_object_or_404(Room, pk=pk)
     if request.method == 'GET':
-        room: Room = get_object_or_404(Room, pk=pk)
+        queryset = RoomMessage.objects.filter(
+                room=room
+            ).order_by(
+                '-creation_date'
+            )
+        messages = map(lambda m: {
+            "id": m.id,
+            "user": {
+                "name": m.user.username,
+            },
+            "content": m.content,
+            "creation_date": m.creation_date,
+        }, queryset)
+        messages = list(messages)
         return JsonResponse({
-            "messages": [{
-                "id": "123",
-                "user": {
-                    "name": user.username,
-                },
-                "content": "HOLA",
-                "creation_date": room.creation_date,
-            }, {
-                "id": "12",
-                "user": {
-                    "name": user.username,
-                },
-                "content": "segundo msg",
-                "creation_date": room.creation_date,
-            }],
+            "messages": messages,
         })
     elif request.method == 'POST':
         if not user.is_authenticated:
-            return HttpResponseNotAllowed();
+            return HttpResponseNotAllowed()
         data = json.loads(request.body)
-        # TODO: make a message with this data
+        if not 'content' in data:
+            return HttpResponseBadRequest()
+        content = data['content']
+        RoomMessage.objects.create(
+            room=room,
+            user=user,
+            content=content
+        )
+        return HttpResponse(status=201)
         
 
 @login_required

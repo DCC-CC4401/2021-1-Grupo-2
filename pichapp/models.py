@@ -91,6 +91,25 @@ class Room(models.Model):
         return f"{self.meeting_place} ({self.region}/{self.comuna})"
 
 
+class RoomMessage(models.Model):
+    room = models.ForeignKey(
+        Room,
+        on_delete=models.CASCADE,
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+    content = models.TextField(
+        verbose_name="Contenido"
+    )
+    creation_date = models.DateTimeField(
+        verbose_name="Fecha de creación",
+        auto_now_add=True
+    )
+
+
 @receiver(m2m_changed, sender=Room.participants.through)
 def on_participants_changed(instance: Room, action: str, **kwargs):
     print("OLA")

@@ -1,3 +1,4 @@
+from django.http.response import JsonResponse
 from pichapp.models import User, Room, ActivityCategory
 from datetime import date, datetime
 from django.contrib.auth.decorators import login_required
@@ -125,6 +126,26 @@ def room_detail(request, pk: int):
                 context['in_room'] = True
         return render(request, "pichapp/room_detail.html", context)
 
+
+def room_chat_messages(request, pk: int):
+    if request.method == 'GET':
+        room: Room = get_object_or_404(Room, pk=pk)
+        return JsonResponse({
+            "messages": [{
+                "user": {
+                    "name": request.user.username,
+                },
+                "content": "HOLA",
+                "creation_date": room.creation_date,
+            }, {
+                "user": {
+                    "name": request.user.username,
+                },
+                "content": "segundo msg",
+                "creation_date": room.creation_date,
+            }],
+        })
+        
 
 @login_required
 def join_room(request, pk: int):

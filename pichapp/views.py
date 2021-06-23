@@ -80,7 +80,7 @@ def create_room(request):
         nombre_comuna = request.POST["nombre_comuna"]
         nombre_region = request.POST["nombre_region"]
         nombre_actividad = request.POST["nombre_actividad"]
-
+        print(nombre_actividad)
         activity_object = ActivityCategory.objects.get(
             verbose_name=nombre_actividad)
 

@@ -21,6 +21,38 @@ const initApp = () => {
 				curPage = page;
 			};
 	});
+	loadMessages();
+    setInterval(function () {
+        loadMessages();
+        }, 500);
+}
+
+let writtenIDs = [];
+
+function writeMessage(username, message, date, id) {
+	if (writtenIDs.includes(id)) return;
+	const roomChat = document.querySelector(".messages-wrapper");
+	roomChat.innerHTML = `
+    <div class="message-container">
+	  <figure class="image is-64x64 message-avatar">
+		<img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+	  </figure>
+	  <div class="message-bubble-root"></div>
+	  <div class="message-bubble">
+		<span class="message-name">@${username}</span>
+		<p class="message-content">${message}</p>
+		<span class="message-date">${date}</span>
+	  </div>
+	</div>` + roomChat.innerHTML;
+	writtenIDs.push(id);
+}
+
+function loadMessages() {
+	fetch(`chat/messages`)
+		.then(response => response.json())
+			.then(data => console.log(data))
+		.catch(error => console.log(error));
 }
 
 window.onload = initApp();
+

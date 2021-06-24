@@ -110,7 +110,7 @@ def logout_user(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-
+@login_required
 def room_detail(request, pk: int):
     if request.method == 'GET':
         room: Room = get_object_or_404(Room, pk=pk)

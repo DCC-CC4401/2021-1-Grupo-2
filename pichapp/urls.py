@@ -10,7 +10,7 @@ urlpatterns = [
     path('rooms/<int:pk>/participants/join', views.join_room, name='room_join'),
     path('rooms/<int:pk>/participants/exit', views.exit_room, name='room_exit'),
     path('rooms/<int:pk>/chat/messages', views.room_chat_messages, name='room_chat_messages'),
-    #path('', views.home_view, name='home_view'),
+    path('search_room/', views.search_room, name='search_room'),
     path('home/', views.home_view, name='home_view'),
-    path('', views.landing_view, name="landing_view")
+    path('', views.landing_view, name="landing_view"),
 ]

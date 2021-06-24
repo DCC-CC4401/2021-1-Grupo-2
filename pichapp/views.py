@@ -7,16 +7,65 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.contrib import messages
+from pichapp.aux_modules.search_room import *
 from django.db.models import Count
 
 # Create your views here.
 
 @login_required
+def search_room(request):
+    if request.method == 'GET':
+        print(request.GET)
+        if 'filtrar' in request.GET:  # Caso el llamado GET es dado por el botón de filtrar
+            today = date.today().strftime("%Y-%m-%d")
+            activities: ActivityCategory = ActivityCategory.objects.raw(
+                'SELECT name, verbose_name FROM pichapp_ActivityCategory')
+            # Se busca si hay algún parámetro que valga la pena filtrar
+            found_param = find_param(request.GET)
+
+            if found_param:
+                salas = filtrar_salas(request.GET)
+                print(salas)
+
+            else:
+                salas = filtrar_salas(request.GET)
+                #salas = Room.objects.raw('SELECT * FROM pichapp_Room')
+
+            lista_salas = make_salas(salas)
+            
+            context = {
+                'fecha': today,
+                'activities': activities,
+                'lista_salas': lista_salas
+            }
+
+            return render(request, "pichapp/room/search_room.html", context)
+        # Página por default
+        else:
+            context = search_default_context()
+            return render(request, "pichapp/room/search_room.html", context)
+
+    if request.method == 'POST':
+        numero_sala = request.POST["numero_sala"]
+        sala_encontrada = Room.objects.raw(
+            'SELECT id FROM pichapp_Room WHERE id =' + numero_sala)
+        for p in sala_encontrada:
+            if p.id == int(numero_sala):
+                return HttpResponseRedirect('/rooms/' + numero_sala + '/')
+        # Falla la busqueda por id, se retorna la página por default
+        # junto a mensaje de error
+        context = search_default_context()
+        context['error'] = ["Id de la sala inexistente"]
+        return render(request, "pichapp/room/search_room.html", context)
+
+
 def create_room(request):
     today = date.today().strftime("%Y-%m-%d")
     if request.method == 'GET':  # Si estamos cargando la página
         # Mostrar el template
-        activities: Activities = ActivityCategory.objects.raw('SELECT name, verbose_name FROM pichapp_ActivityCategory')
+        activities: ActivityCategory = ActivityCategory.objects.raw(
+            'SELECT name, verbose_name FROM pichapp_ActivityCategory')
+        print(activities)
         context = {
             'fecha': today,
             'activities': activities
@@ -31,7 +80,7 @@ def create_room(request):
         nombre_comuna = request.POST["nombre_comuna"]
         nombre_region = request.POST["nombre_region"]
         nombre_actividad = request.POST["nombre_actividad"]
-
+        print(nombre_actividad)
         activity_object = ActivityCategory.objects.get(
             verbose_name=nombre_actividad)
 

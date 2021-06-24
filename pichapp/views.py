@@ -239,13 +239,17 @@ def home_view(request):
     for category in best_rooms:
         best_rooms_context.append(ActivityCategory.objects.filter(name=category["category"])[0])
     sports = ActivityCategory.objects.all()
-    print(sports)
+    are_rooms = False
+    if len(best_rooms_context) > 0:
+        are_rooms = True
     sports_context = [sports[x:x+4] for x in range(0, len(sports), 4)]
-    if 0 % 4 != 0:
+    if len(sports_context) % 4 != 0:
         sports_context[len(sports) // 4] = [False] + sports_context[len(sports) // 4] +[False]
     context = {
         "best_rooms" : best_rooms_context,
-        "sports" : sports_context
+        "sports" : sports_context,
+        "are_b_rooms" : are_rooms,
+        "best_rooms_numbers" : [x + 1 for x in range(len(best_rooms_context))]
     }
     return render(request, "pichapp/home.html", context)
 

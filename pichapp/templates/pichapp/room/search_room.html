@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+  .container {
+    height: 50px;
+    position: relative;
+  }
+
+  table.dataTable.stripe tbody tr.odd,
+  table.dataTable.display tbody tr.odd {
+    background-color: white !important;
+  }
+
+  table.dataTable.hover tbody tr:hover,
+  table.dataTable.display tbody tr:hover {
+    background-color: white !important;
+  }
+
+  .search-nav {
+    background-color: #ff7c75 !important;
+  }
+
+  .room-box {
+    display: block !important;
+  }
+
+  .center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  .table td,
+  .table th {
+    border: none !important;
+  }
+
+  .room-box-info {
+    height: 40vh;
+  }
+</style>
+
+<head>
+  {% load static %}
+  <title> Búsqueda de sala</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--CSS  -->
+  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/mystyles.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/search_room.css' %}">
+  <link rel="stylesheet" href="{% static 'pichapp/dataTables.bulma.min.css'  %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'pichapp/register.css' %}">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+
+  <!--JS  -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" charset="utf8"
+    src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" language="javascript"
+    src="https://nightly.datatables.net/responsive/js/dataTables.responsive.min.js"></script>
+  <script src="{% static 'pichapp/dataTables.bulma.min.js' %}"></script>
+
+  <script src="{% static 'pichapp/notification.js' %}"></script>
+  <script src="{% static 'pichapp/regiones_comunas.js' %}"> </script>
+</head>
+
+<body>
+  {% include "pichapp/navbar.html" %}
+
+  <div class="topnav search-nav">
+    <div class="search-container search-nav">
+      <form method="POST" action="">
+        {% csrf_token %}
+        <!-- csrf token for basic security -->
+        <input type="number" placeholder="Buscar sala por id..." name="numero_sala" min="1" required>
+        <button type="submit"><i class="fa fa-search"></i></button>
+      </form>
+    </div>
+  </div>
+
+
+  <!--Navbar con los filtros-->
+  <div class="navbar">
+    <form class="navbar-menu is-active" method="get" action="" style="background-color: #cac7c7;">
+      <div class="navbar-start">
+        <div class="navbar-item">
+          <div>Filtrar por:</div>
+        </div>
+      </div>
+
+      <div class="navbar-item">
+        <div class="field">
+          <div class="select control has-icons-right">
+            <select id="actividades" class="input" name="nombre_actividad">
+              <option disabled selected>Actividad</option>
+              {% for p in activities%}
+              <option value='{{p.verbose_name}}'> {{p.verbose_name}}</option> #value = League of
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="navbar-item">
+        <div class="field">
+          <div class="select control has-icons-right">
+            <select id="region" onchange="region_change(this)" class="input" name="nombre_region">
+              <option disabled selected>Región</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="navbar-item">
+        <div class="field">
+          <div class="select control has-icons-right">
+            <select id="comuna" class="input" name="nombre_comuna">
+              <option disabled selected>Comuna</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="navbar-item">
+        <div class="field">
+          <p class="control has-icons-right is-medium">
+            <input type="date" placeholder="From" id="start" name="fecha_inicio" value="" min="{{ fecha }}">
+          </p>
+        </div>
+      </div>
+
+      <div class="navbar-item">
+        <div class="field">
+          <p class="control has-icons-right">
+            <input type="date" placeholder="To" id="finish" name="fecha_final" value="" min="{{ fecha }}">
+          </p>
+        </div>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <button class="button" name="filtrar">Filtrar</button>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
+  <!-- Cuadro de Salas -->
+  <div class="container">
+    <table class="table display responsive" width="100%">
+      <thead>
+        <tr>
+          <th>
+          </th>
+          <th>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for par_salas in lista_salas%}
+        <tr>
+          {% if par_salas|length == 2 %}
+          {% for sala in par_salas %}
+          <td>
+            <div class="center-container">
+              <a href="/rooms/{{ sala.id }}/" class = "link_salas">
+                <div class="content-wrapper">
+                  <div class="room-box" style="grid-template-columns: 100% 0%">
+                    <div class="room-box-header">
+                      <h2>
+                        {{ sala.name }}
+                      </h2>
+                      <p>
+                        {{ sala.category.verbose_name }}
+                      </p>
+                    </div>
+                    <div class="room-box-info">
+                      <p>
+                        <span class="has-text-weight-bold"> Número de participantes: </span>{{ sala.current_size }}
+                        <span class="has-text-weight-bold"> / </span> {{sala.max_size}}
+                      </p>
+                      <p>
+                        <span class="has-text-weight-bold"> Dirección: </span>{{ sala.place }}
+                      </p>
+                      <p>
+                        <span class="has-text-weight-bold"> Fecha de encuentro: </span>{{ sala.activity_datetime }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </td>
+          {% endfor %}
+          {% else %}
+          {% for sala in par_salas %}
+          <td>
+            <div class="center-container">
+              <a href="/rooms/{{ sala.id }}/" class = "link_salas">
+                <div class="content-wrapper">
+                  <div class="room-box" style="grid-template-columns: 100% 0%">
+                    <div class="room-box-header">
+                      <h2>
+                        {{ sala.name }}
+                      </h2>
+                      <p>
+                        {{ sala.category.verbose_name }}
+                      </p>
+                    </div>
+                    <div class="room-box-info">
+                      <p>
+                        <span class="has-text-weight-bold"> Número de participantes: </span>{{ sala.current_size }}
+                        <span class="has-text-weight-bold"> / </span> {{sala.max_size}}
+                      </p>
+                      <p>
+                        <span class="has-text-weight-bold"> Dirección: </span>{{ sala.place }}
+                      </p>
+                      <p>
+                        <span class="has-text-weight-bold"> Fecha de encuentro: </span>{{ sala.activity_datetime }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </td>
+          {% endfor %}
+          <td>
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Id no encontrado-->
+  <div class="columns is-centered">
+    {% if error %}
+    <div class="notification is-warning">
+      <button type="button" class="delete" onclick="hide_notification(this)"><span class="icon">
+          <i class="fas fa-times" aria-hidden="true"></i>
+        </span></button>
+      {% for o_error in error %}
+      <p>{{ o_error }}</p>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  <script src="https://cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"></script>
+  <script>
+
+    make_regiones();
+
+    $.extend(true, $.fn.dataTable.defaults, {
+      "language": {
+        "decimal": ",",
+        "thousands": ".",
+        "info": "Mostrando páginas del _START_ al _END_ de un total de _TOTAL_",
+        "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "infoPostFix": "",
+        "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "loadingRecords": "Cargando...",
+        "lengthMenu": "Mostrar _MENU_ registros",
+        "paginate": {
+          "first": "Primero",
+          "last": "Último",
+          "next": "Siguiente",
+          "previous": "Anterior"
+        },
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "searchPlaceholder": "Término de búsqueda",
+        "zeroRecords": "No se encontraron resultados",
+        "emptyTable": "Ninguna sala encontrada",
+        "aria": {
+          "sortAscending": ": Activar para ordenar la columna de manera ascendente",
+          "sortDescending": ": Activar para ordenar la columna de manera descendente"
+        },
+        //only works for built-in buttons, not for custom buttons
+        "buttons": {
+          "create": "Nuevo",
+          "edit": "Cambiar",
+          "remove": "Borrar",
+          "copy": "Copiar",
+          "csv": "fichero CSV",
+          "excel": "tabla Excel",
+          "pdf": "documento PDF",
+          "print": "Imprimir",
+          "colvis": "Visibilidad columnas",
+          "collection": "Colección",
+          "upload": "Seleccione fichero...."
+        },
+        "select": {
+          "rows": {
+            _: '%d filas seleccionadas',
+            0: 'clic fila para seleccionar',
+            1: 'una fila seleccionada'
+          }
+        }
+      }
+    });
+
+    $('.table').DataTable({
+        autoWidth: false,
+      paging: true,
+      info: false,
+      pageLength: 2,
+      searching: false,
+      lengthChange: false,
+      ordering: false,
+      scrollCollapse: true,
+      responsive: {
+        details: {
+          display: $.fn.dataTable.Responsive.display.childRowImmediate
+        }
+      },
+
+    });
+  </script>
+
+</body>

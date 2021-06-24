@@ -1,5 +1,33 @@
 * {box-sizing: border-box;}
 
+@media screen and (min-width: 769px) and (max-width: 864px), print {
+  .columns:not(.is-desktop) {
+    display: block !important;
+  }
+
+  .columns{
+    display: block !important;
+  }
+  .column{
+    display: block !important;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 864px), print {
+  .column.is-half, .column.is-half-tablet {
+    width: 100% !important;
+  }
+}
+
+.columns{
+  flex-direction: row !important;
+  justify-content: center !important;
+}
+
+table.dataTable.no-footer {
+        border-bottom: 0 !important;
+    }
+
 a {
   color: black;
 }
@@ -8,9 +36,6 @@ a:hover{
   color: black;
 }
 
-.link_salas{
-  width: 27vw;
-}
 
 body {
   margin: 0;

@@ -167,10 +167,10 @@
       </thead>
       <tbody>
         {% for par_salas in lista_salas%}
-        <tr>
+        <tr class = "columns">
           {% if par_salas|length == 2 %}
           {% for sala in par_salas %}
-          <td>
+          <td class = "column is-half">
             <div class="center-container">
               <a href="/rooms/{{ sala.id }}/" class = "link_salas">
                 <div class="content-wrapper">
@@ -203,7 +203,7 @@
           {% endfor %}
           {% else %}
           {% for sala in par_salas %}
-          <td>
+          <td class = "column is-half">
             <div class="center-container">
               <a href="/rooms/{{ sala.id }}/" class = "link_salas">
                 <div class="content-wrapper">
@@ -318,10 +318,12 @@
       searching: false,
       lengthChange: false,
       ordering: false,
-      scrollCollapse: true,
+      scrollCollapse: false,
       responsive: {
         details: {
-          display: $.fn.dataTable.Responsive.display.childRowImmediate
+          display: $.fn.dataTable.Responsive.display.childRowImmediate,
+            type: 'none',
+            target: ''
         }
       },
 

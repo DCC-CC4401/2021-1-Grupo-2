@@ -38,8 +38,11 @@ def filtrar_salas(dict):
     L = make_params_list(dict)
     today = date.today().strftime("%Y-%m-%d")
     room = Room.objects.filter(activity_datetime__gte = datetime.fromisoformat(today))
+
     if 'nombre_actividad' in L:
-        room = room.filter(category_id = dict['nombre_actividad'])
+        activity_object = ActivityCategory.objects.get(
+            verbose_name=dict['nombre_actividad'])
+        room = room.filter(category = activity_object)
     if 'nombre_region' in L:
         room = room.filter(region = dict['nombre_region'])
     if 'nombre_comuna' in L:

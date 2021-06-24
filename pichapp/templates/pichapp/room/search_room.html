@@ -99,7 +99,7 @@
             <select id="actividades" class="input" name="nombre_actividad">
               <option disabled selected>Actividad</option>
               {% for p in activities%}
-              <option value={{p.verbose_name}}> {{p.verbose_name}}</option>
+              <option value='{{p.verbose_name}}'> {{p.verbose_name}}</option> #value = League of
               {% endfor %}
             </select>
           </div>

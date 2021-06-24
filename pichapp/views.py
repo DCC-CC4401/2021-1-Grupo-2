@@ -29,7 +29,8 @@ def search_room(request):
                 print(salas)
 
             else:
-                salas = Room.objects.raw('SELECT * FROM pichapp_Room')
+                salas = filtrar_salas(request.GET)
+                #salas = Room.objects.raw('SELECT * FROM pichapp_Room')
 
             lista_salas = make_salas(salas)
             

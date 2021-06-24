@@ -59,6 +59,7 @@ def search_room(request):
         return render(request, "pichapp/room/search_room.html", context)
 
 
+@login_required
 def create_room(request):
     today = date.today().strftime("%Y-%m-%d")
     if request.method == 'GET':  # Si estamos cargando la página

@@ -1,4 +1,5 @@
 <nav class="navbar is-size-5 has-shadow is-fixed-top is-light">
+
   {% load static %}
 
 <!-- Container? -->
@@ -17,12 +18,23 @@
     </div>
     <div class="navbar-end">
     <!-- Buttons -->
+
+    {% if user.is_authenticated %}
+      <div class="navbar-item">
+        <div class="buttons">
+          <a class="button is-primary" href="{% url 'logout_user' %}">
+            <strong>Logout</strong>
+          </a>
+        </div>
+      </div>
+    {% else %}
       <div class="navbar-item">
         <div class="buttons">
           <a href="{% url 'register_user' %}" class="button is-primary">Regístrate</a>
           <a href="{% url 'login_user' %}" class="button">Iniciar sesión</a>
         </div>
       </div>
+    {% endif %}
     </div>
   </div>
 

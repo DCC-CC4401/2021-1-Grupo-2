@@ -1,6 +1,6 @@
 # Pichangapp
 
-![PichangApp](pichapp\static\pichapp\NavPortada.png)
+![PichangApp](pichapp/static/pichapp/NavPortada.png)
 
 About
 - PichanApp is the app to make sport encounters in Chile in a easy and fast way.

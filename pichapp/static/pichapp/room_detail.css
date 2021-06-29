@@ -68,6 +68,7 @@
   grid-area: info;
   display: block;
   overflow: scroll;
+  color: #5c4848;
 }
 
 .room-box-chat {
@@ -76,6 +77,10 @@
   grid-area: info;
   display: flex;
   flex-direction: column;
+}
+
+span.room-id {
+  color: #f5ddd9;
 }
 
 .messages-wrapper {
